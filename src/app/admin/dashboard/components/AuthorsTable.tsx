@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { FileText, Loader2 } from "lucide-react"
 import { formatDistanceToNow } from "date-fns"
-import { toggleAuthorStatus, fetchAuthors } from "@/redux/slices/authorsSlice"
+import { toggleAuthorStatus, fetchAuthorsByAdmin } from "@/redux/slices/authorsSlice"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { toast } from "sonner"
 import type { RootState, AppDispatch } from "@/redux/store"
@@ -18,7 +18,7 @@ export function AuthorsTable() {
   const [toggleLoading, setToggleLoading] = useState<Record<string | number, boolean>>({})
 
   useEffect(() => {
-    dispatch(fetchAuthors())
+    dispatch(fetchAuthorsByAdmin())
   }, [dispatch])
 
   const getStatusBadge = (is_active: number) => {

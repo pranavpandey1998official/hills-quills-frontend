@@ -23,7 +23,7 @@ import { StatsCards } from "@/app/admin/dashboard/components/StatsCards"
 import { ActivityFeed } from "@/app/admin/dashboard/components/ActivityFeed"
 import { TabNavigator } from "@/app/admin/dashboard/components/TabNavigator"
 import  { fetchAdminArticles }  from "@/redux/slices/adminSlice"
-import { fetchAuthors } from "@/redux/slices/authorsSlice"
+import { fetchAuthorsByAdmin } from "@/redux/slices/authorsSlice"
 import { fetchWebStories } from "@/redux/slices/storiesSlice"
 import { fetchAdminMe } from "@/redux/slices/adminSlice"
 import type { RootState, AppDispatch } from "@/redux/store"
@@ -36,7 +36,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     // Fetch initial data
     dispatch(fetchAdminArticles({ page: 1, limit: 10, status: "all" }))
-    dispatch(fetchAuthors())
+    dispatch(fetchAuthorsByAdmin())
     dispatch(fetchWebStories())
     dispatch(fetchAdminMe())
   }, [dispatch])

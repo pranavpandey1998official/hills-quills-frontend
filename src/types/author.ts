@@ -18,6 +18,7 @@ export interface Author {
   
 export interface AuthorsState {
     items: Author[]
+    profile: Author | null
     isLoading: boolean
     error: string | null
     totalCount: number

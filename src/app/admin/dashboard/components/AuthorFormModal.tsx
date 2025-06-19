@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { fetchAuthors, toggleAuthorStatus, createAuthor, updateAuthor } from "@/redux/slices/authorsSlice"
+import { fetchAuthorsByAdmin, toggleAuthorStatus, createAuthorByAdmin, updateAuthorByAdmin } from "@/redux/slices/authorsSlice"
 import type { AppDispatch } from "@/redux/store"
 import { toast } from "sonner"
 
@@ -100,10 +100,10 @@ export function AuthorFormModal({ open, onClose, author }: AuthorFormModalProps)
     }
 
     if (author) {
-      dispatch(updateAuthor({ id: author.id, data: submitData }))
+      dispatch(updateAuthorByAdmin({ id: author.id, data: submitData }))
       toast.success("Author updated successfully")
     } else {
-      dispatch(createAuthor(submitData))
+      dispatch(createAuthorByAdmin(submitData))
       toast.success("Author created successfully")
     }
 

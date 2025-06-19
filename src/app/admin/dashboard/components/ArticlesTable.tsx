@@ -15,6 +15,16 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { format } from "date-fns"
 import { Button } from "@/components/ui/button"
 import { Check, X, Star, Loader2 } from "lucide-react"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label"
 import { approveArticle, rejectArticle, bulkApproveArticles, bulkRejectArticles, toggleTopNews, bulkToggleTopNews } from "@/redux/slices/articlesSlice"
 import { toast } from "sonner"
 import type { RootState, AppDispatch } from "@/redux/store"
@@ -24,6 +34,10 @@ export function ArticlesTable() {
   const [selectedArticles, setSelectedArticles] = useState<string[]>([])
   const [actionLoading, setActionLoading] = useState<Record<string, boolean>>({})
   const dispatch = useDispatch<AppDispatch>()
+  const [rejectDialogOpen, setRejectDialogOpen] = useState(false)
+  const [bulkRejectDialogOpen, setBulkRejectDialogOpen] = useState(false)
+  const [rejectionReason, setRejectionReason] = useState("")
+  const [articleToReject, setArticleToReject] = useState<string | null>(null)
 
   const toggleSelection = (id: string) => {
     setSelectedArticles((prev) => 
@@ -46,7 +60,28 @@ export function ArticlesTable() {
   }
 
   const handleReject = (id: string) => {
-    dispatch(rejectArticle(id));
+    setArticleToReject(id)
+    setRejectDialogOpen(true)
+  }
+
+  const handleRejectConfirm = () => {
+    if (articleToReject) {
+      dispatch(rejectArticle({ id: articleToReject, reason: rejectionReason }))
+      setRejectDialogOpen(false)
+      setRejectionReason("")
+      setArticleToReject(null)
+    }
+  }
+
+  const handleBulkRejectClick = () => {
+    setBulkRejectDialogOpen(true)
+  }
+
+  const handleBulkRejectConfirm = () => {
+    dispatch(bulkRejectArticles({ ids: selectedArticles, reason: rejectionReason }))
+    setSelectedArticles([])
+    setBulkRejectDialogOpen(false)
+    setRejectionReason("")
   }
 
   const handleToggleTopNews = async (id: string, is_top_news: number) => {
@@ -64,11 +99,6 @@ export function ArticlesTable() {
 
   const handleBulkApprove = () => {
     dispatch(bulkApproveArticles(selectedArticles));
-    setSelectedArticles([]);
-  }
-
-  const handleBulkReject = () => {
-    dispatch(bulkRejectArticles(selectedArticles));
     setSelectedArticles([]);
   }
 
@@ -199,7 +229,7 @@ export function ArticlesTable() {
           </Button>
           <Button 
             variant="destructive"
-            onClick={handleBulkReject}
+            onClick={handleBulkRejectClick}
           >
             Reject Selected ({selectedArticles.length})
           </Button>
@@ -241,6 +271,91 @@ export function ArticlesTable() {
           </Button>
         </div>
       )}
+
+      {/* Single Article Reject Dialog */}
+      <Dialog open={rejectDialogOpen} onOpenChange={setRejectDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Reject Article</DialogTitle>
+            <DialogDescription>
+              Please provide a reason for rejecting this article.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="reason">Rejection Reason</Label>
+              <Textarea
+                id="reason"
+                placeholder="Enter reason for rejection..."
+                value={rejectionReason}
+                onChange={(e) => setRejectionReason(e.target.value)}
+                rows={4}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                setRejectDialogOpen(false)
+                setRejectionReason("")
+                setArticleToReject(null)
+              }}
+            >
+              Cancel
+            </Button>
+            <Button 
+              variant="destructive" 
+              onClick={handleRejectConfirm}
+              disabled={!rejectionReason.trim()}
+            >
+              Reject Article
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Bulk Reject Dialog */}
+      <Dialog open={bulkRejectDialogOpen} onOpenChange={setBulkRejectDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Reject Selected Articles</DialogTitle>
+            <DialogDescription>
+              Please provide a reason for rejecting {selectedArticles.length} selected articles.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="bulk-reason">Rejection Reason</Label>
+              <Textarea
+                id="bulk-reason"
+                placeholder="Enter reason for rejection..."
+                value={rejectionReason}
+                onChange={(e) => setRejectionReason(e.target.value)}
+                rows={4}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                setBulkRejectDialogOpen(false)
+                setRejectionReason("")
+              }}
+            >
+              Cancel
+            </Button>
+            <Button 
+              variant="destructive" 
+              onClick={handleBulkRejectConfirm}
+              disabled={!rejectionReason.trim()}
+            >
+              Reject Articles
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
