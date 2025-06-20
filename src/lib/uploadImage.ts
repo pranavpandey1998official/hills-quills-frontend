@@ -1,16 +1,6 @@
 import { apiClient } from './api';
 import { API_BASE_URL } from "@/types/constant"
-
-// Maximum file size (5MB in bytes)
-export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-
-export type UploadType = 'article' | 'profile';
-
-export interface UploadResponse {
-  success: boolean;
-  url?: string;
-  error?: string;
-}
+import { MAX_FILE_SIZE, UploadType, UploadResponse } from "@/types/articles"
 
 /**
  * Validates if the file is an image and within size limits

@@ -137,6 +137,16 @@ export const UTTARAKHAND_REGIONS = [
     pageSize: number
     onPageChange?: (page: number) => void
   }
+
+export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
+export type UploadType = 'article' | 'profile';
+
+export interface UploadResponse {
+  success: boolean;
+  url?: string;
+  error?: string;
+}
   
   export type UttarakhandRegion = (typeof UTTARAKHAND_REGIONS)[number]
   export type ArticleCategory = (typeof ARTICLE_CATEGORIES)[number]
