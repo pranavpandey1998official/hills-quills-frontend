@@ -10,6 +10,7 @@ import { fetchMyStories } from "@/redux/slices/storiesSlice"
 import { fetchAuthorMe } from "@/redux/slices/authorsSlice"
 import type { RootState, AppDispatch } from "@/redux/store"
 import { TrendingTopNewsSection } from "./components/TrendingTopNewsSection"
+import ProtectedRoute from "@/components/auth/protectedroute"
 
 export default function AuthorDashboard() {
   const dispatch = useDispatch<AppDispatch>()
@@ -24,6 +25,7 @@ export default function AuthorDashboard() {
   }, [dispatch])
 
   return (
+    <ProtectedRoute requiredRole="author">
     <AuthorDashboardLayout>
       <div className="space-y-6">
         {/* Welcome Header */}
@@ -51,5 +53,6 @@ export default function AuthorDashboard() {
         </div>
       </div>
     </AuthorDashboardLayout>
+    </ProtectedRoute>
   )
 }

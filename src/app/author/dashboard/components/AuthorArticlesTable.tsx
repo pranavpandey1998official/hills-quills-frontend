@@ -22,8 +22,20 @@ import { formatDistanceToNow } from "date-fns"
 import { deleteArticle, resubmitArticle ,fetchTrendingArticles} from "@/redux/slices/articlesSlice"
 import type { RootState, AppDispatch } from "@/redux/store"
 import { PaginationControls } from "@/components/PaginationControls"
-import { toast } from "sonner"
+import { DeleteArticleDialog } from "@/components/ArticleDeleteDialog"
 import type { Article } from "@/types/articles"
+import { 
+  getStatusBadge, 
+  getCategoryBadge, 
+  isArticleTrending,
+  handleArticleResubmit,
+  handleArticleSubmitForReview,
+  viewArticle,
+  editArticle,
+  handleDeleteArticle,
+  confirmDeleteArticle
+} from "@/lib/articles/ArticleTableHelper"
+
 
 export function AuthorArticlesTable() {
   const dispatch = useDispatch<AppDispatch>()
@@ -51,17 +63,6 @@ export function AuthorArticlesTable() {
     }
   }, [trending.items])
 
-  const isArticleTrending = (articleId: string | number) => {
-    return trendingArticleIds.has(articleId)
-  }
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedArticles(articles.map((article) => article.id))
-    } else {
-      setSelectedArticles([])
-    }
-  }
-
   const handleSelectArticle = (articleId: string | number, checked: boolean) => {
     if (checked) {
       setSelectedArticles([...selectedArticles, articleId])
@@ -70,59 +71,36 @@ export function AuthorArticlesTable() {
     }
   }
 
-  const handleEdit = (articleId: string | number, status: string) => {
-    if (status === "approved") {
-      toast.error("Cannot edit approved articles")
-      return
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedArticles(articles.map((article) => article.id))
+    } else {
+      setSelectedArticles([])
     }
-    window.location.href = `/author/my-news/${articleId}/edit`
   }
 
   const handleView = (articleId: string | number) => {
-    window.location.href = `/author/articles/${articleId}`
+    viewArticle(articleId);
   }
 
-  const handleDelete = (articleId: string | number) => {
-    setArticleToDelete(articleId)
-    setDeleteDialogOpen(true)
-  }
-
-  const confirmDelete = () => {
-    if (articleToDelete) {
-      dispatch(deleteArticle(String(articleToDelete)))
-      toast.success("Article deleted successfully")
-      setDeleteDialogOpen(false)
-      setArticleToDelete(null)
-    }
+  const handleEdit = (articleId: string | number, status: string) => {
+    editArticle(articleId, status);
   }
 
   const handleResubmit = (articleId: string | number) => {
-    dispatch(resubmitArticle(String(articleId)))
-    toast.success("Article resubmitted for review")
+    handleArticleResubmit(dispatch, articleId);
   }
 
-  const getStatusBadge = (status: string) => {
-    const variants = {
-      draft: "bg-gray-100 text-gray-800",
-      pending: "bg-yellow-100 text-yellow-800",
-      approved: "bg-green-100 text-green-800",
-      rejected: "bg-red-100 text-red-800",
-    }
-    return variants[status as keyof typeof variants] || variants.draft
+  const handleDelete = (articleId: string | number) => {
+    handleDeleteArticle(articleId, setArticleToDelete, setDeleteDialogOpen);
   }
 
-  const getCategoryBadge = (category: string) => {
-    const colors = [
-      "bg-blue-100 text-blue-800",
-      "bg-purple-100 text-purple-800",
-      "bg-pink-100 text-pink-800",
-      "bg-indigo-100 text-indigo-800",
-    ]
-    const hash = category.split("").reduce((a, b) => {
-      a = (a << 5) - a + b.charCodeAt(0)
-      return a & a
-    }, 0)
-    return colors[Math.abs(hash) % colors.length]
+  const confirmDelete = () => {
+    confirmDeleteArticle(articleToDelete, dispatch, setDeleteDialogOpen, setArticleToDelete);
+  }
+
+  const handleSubmitForReview = (articleId: string | number) => {
+    handleArticleSubmitForReview(dispatch, articleId);
   }
 
   if (isLoading) {
@@ -193,7 +171,7 @@ export function AuthorArticlesTable() {
                       <div className="flex items-center space-x-2">
                         <p className="font-medium truncate">{article.title}</p>
                         <div className="flex items-center space-x-1">
-                          {isArticleTrending(article.id) && (
+                          {isArticleTrending(article.id, trendingArticleIds) && (
                             <span title="Trending Article" className="inline-flex p-1 rounded-sm bg-purple-50 text-purple-700">
                               <TrendingUp className="h-3 w-3" />
                             </span>
@@ -235,6 +213,12 @@ export function AuthorArticlesTable() {
                             Edit
                           </DropdownMenuItem>
                         )}
+                        {article.status === "draft" && (
+                          <DropdownMenuItem onClick={() => handleSubmitForReview(article.id)}>
+                            <Send className="mr-2 h-4 w-4" />
+                            Submit for Review
+                          </DropdownMenuItem>
+                        )}
                         {article.status === "rejected" && (
                           <DropdownMenuItem onClick={() => handleResubmit(article.id)}>
                             <Send className="mr-2 h-4 w-4" />
@@ -261,20 +245,11 @@ export function AuthorArticlesTable() {
       {articles.length > 0 && <PaginationControls totalCount={totalCount} currentPage={currentPage} pageSize={10} />}
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your article.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete}>Delete</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <DeleteArticleDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={confirmDelete}
+      />
     </div>
   )
 }

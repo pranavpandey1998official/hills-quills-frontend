@@ -32,7 +32,19 @@ import {
 } from "@/redux/slices/articlesSlice"
 import type { RootState, AppDispatch } from "@/redux/store"
 import { PaginationControls } from "@/components/PaginationControls"
+import { DeleteArticleDialog } from "@/components/ArticleDeleteDialog"
 import { toast } from "sonner"
+import { 
+  getStatusBadge, 
+  getCategoryBadge, 
+  isArticleTrending,
+  handleArticleResubmit,
+  handleArticleSubmitForReview,
+  viewArticle,
+  editArticle,
+  handleDeleteArticle,
+  confirmDeleteArticle
+} from "@/lib/articles/ArticleTableHelper"
 
 export function DetailedArticlesTable() {
   const dispatch = useDispatch<AppDispatch>()
@@ -48,7 +60,7 @@ export function DetailedArticlesTable() {
 
   const [selectedArticles, setSelectedArticles] = useState<string[]>([])
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [articleToDelete, setArticleToDelete] = useState<string | null>(null)
+  const [articleToDelete, setArticleToDelete] = useState<string | number | null>(null)
   const [trendingArticleIds, setTrendingArticleIds] = useState<Set<string | number>>(new Set())
   const [searchText, setSearchText] = useState("")
    
@@ -77,11 +89,6 @@ export function DetailedArticlesTable() {
     }
   }, [trending.items])
   
-  // Helper function to check if article is trending
-  const isArticleTrending = (articleId: string | number) => {
-    return trendingArticleIds.has(articleId)
-  }
-
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
       setSelectedArticles(articles.map((article) => String(article.id)))
@@ -100,64 +107,27 @@ export function DetailedArticlesTable() {
   }
 
   const handleView = (articleId: string | number) => {
-    window.location.href = `/author/articles/${articleId}`
+    viewArticle(articleId);
   }
 
   const handleEdit = (articleId: string | number, status: string) => {
-    if (status === "approved") {
-      toast.error("Cannot edit approved articles")
-      return
-    }
-    window.location.href = `/author/articles/${articleId}/edit`
+    editArticle(articleId, status);
   }
 
   const handleDelete = (articleId: string | number) => {
-    setArticleToDelete(String(articleId))
-    setDeleteDialogOpen(true)
+    handleDeleteArticle(articleId, setArticleToDelete, setDeleteDialogOpen);
   }
 
   const confirmDelete = () => {
-    if (articleToDelete) {
-      dispatch(deleteArticle(articleToDelete))
-      toast.success("Article deleted successfully")
-      setDeleteDialogOpen(false)
-      setArticleToDelete(null)
-    }
+    confirmDeleteArticle(articleToDelete, dispatch, setDeleteDialogOpen, setArticleToDelete);
   }
 
   const handleResubmit = (articleId: string | number) => {
-    dispatch(resubmitArticle(String(articleId)))
-    toast.success("Article resubmitted for review")
-  }
-
-  const getStatusBadge = (status: string) => {
-    const variants = {
-      draft: "bg-gray-100 text-gray-800",
-      pending: "bg-yellow-100 text-yellow-800",
-      approved: "bg-green-100 text-green-800",
-      rejected: "bg-red-100 text-red-800",
-    }
-    return variants[status as keyof typeof variants] || variants.draft
-  }
-
-  const getCategoryBadge = (category: string) => {
-    const colors = [
-      "bg-blue-100 text-blue-800",
-      "bg-purple-100 text-purple-800",
-      "bg-pink-100 text-pink-800",
-      "bg-indigo-100 text-indigo-800",
-    ]
-    const hash = category.split("").reduce((a, b) => {
-      a = (a << 5) - a + b.charCodeAt(0)
-      return a & a
-    }, 0)
-    return colors[Math.abs(hash) % colors.length]
+    handleArticleResubmit(dispatch, articleId);
   }
 
   const handleSubmitForReview = (articleId: string | number) => {
-    // Submit draft article for review
-    dispatch(submitForReview(articleId))
-    toast.success("Article submitted for review")
+    handleArticleSubmitForReview(dispatch, articleId);
   }
 
   // Handle search function
@@ -349,7 +319,7 @@ export function DetailedArticlesTable() {
                         <Star className="h-4 w-4 text-yellow-500 fill-yellow-500 flex-shrink-0" />
                       )}
                       <h3 className="font-medium truncate">{article.title}</h3>
-                      {isArticleTrending(article.id) && (
+                      {isArticleTrending(article.id, trendingArticleIds) && (
                         <Badge variant="outline" className="text-xs bg-purple-50 text-purple-700 border-purple-200 flex-shrink-0">
                           <TrendingUp className="h-3 w-3 mr-1" />
                           Trending
@@ -448,20 +418,11 @@ export function DetailedArticlesTable() {
       )}
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your article.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete}>Delete</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <DeleteArticleDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={confirmDelete}
+      />
     </div>
   )
 }

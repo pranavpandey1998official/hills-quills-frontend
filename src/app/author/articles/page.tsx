@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Plus, FileText, BarChart3 } from "lucide-react"
 import { fetchAuthorArticles } from "@/redux/slices/articlesSlice"
 import type { RootState, AppDispatch } from "@/redux/store"
+import ProtectedRoute from "@/components/auth/protectedroute"
 
 export default function AuthorArticlesPage() {
   const dispatch = useDispatch<AppDispatch>()
@@ -25,6 +26,7 @@ export default function AuthorArticlesPage() {
   const rejectedCount = articles.filter((article) => article.status === "rejected").length
 
   return (
+    <ProtectedRoute requiredRole="author">
     <AuthorDashboardLayout>
       <div className="space-y-6">
         {/* Header */}
@@ -101,5 +103,6 @@ export default function AuthorArticlesPage() {
         </Card>
       </div>
     </AuthorDashboardLayout>
+    </ProtectedRoute> 
   )
 }
