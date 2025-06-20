@@ -9,7 +9,9 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { X, Plus, Save, Send } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { X, Plus, Save, Send, Upload, Link } from "lucide-react"
+import { ImageUploader } from "@/components/ImageUploader" // Adjust import path as needed
 import { 
   createAuthorArticle, 
   updateAuthorArticle, 
@@ -35,6 +37,7 @@ export function ArticleForm({ mode, initialData }: ArticleFormProps) {
   const [newTag, setNewTag] = useState("")
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [imageUploadMethod, setImageUploadMethod] = useState<"upload" | "url">("upload")
 
   useEffect(() => {
     if (mode === "edit" && initialData) {
@@ -74,7 +77,7 @@ export function ArticleForm({ mode, initialData }: ArticleFormProps) {
     }
 
     if (!formData.image.trim()) {
-      newErrors.image = "Image URL is required"
+      newErrors.image = "Featured image is required"
     }
 
     if (formData.tags.length === 0) {
@@ -240,11 +243,24 @@ export function ArticleForm({ mode, initialData }: ArticleFormProps) {
     }
   }
 
+  const handleImageUploaded = (imageUrl: string) => {
+    setFormData((prev) => ({ ...prev, image: imageUrl }))
+    if (errors.image) {
+      setErrors((prev) => ({ ...prev, image: "" }))
+    }
+    if (imageUrl) {
+      toast.success("Image uploaded successfully")
+    }
+  }
+
   const addTag = () => {
     if (newTag.trim() && !formData.tags.includes(newTag.trim()) && formData.tags.length < 10) {
       if (newTag.length >= 2 && newTag.length <= 30) {
         setFormData((prev) => ({ ...prev, tags: [...prev.tags, newTag.trim()] }))
         setNewTag("")
+        if (errors.tags) {
+          setErrors((prev) => ({ ...prev, tags: "" }))
+        }
       } else {
         toast.error("Tags must be between 2-30 characters")
       }
@@ -357,19 +373,84 @@ export function ArticleForm({ mode, initialData }: ArticleFormProps) {
               {errors.region && <p className="text-sm text-red-500">{errors.region}</p>}
             </div>
           </div>
+        </CardContent>
+      </Card>
 
-          <div className="space-y-2">
-            <Label htmlFor="image">Featured Image URL *</Label>
-            <Input
-              id="image"
-              value={formData.image}
-              onChange={(e) => handleChange("image", e.target.value)}
-              placeholder="https://example.com/image.jpg"
-              className={errors.image ? "border-red-500" : ""}
-              disabled={isApproved}
-            />
-            {errors.image && <p className="text-sm text-red-500">{errors.image}</p>}
-          </div>
+      {/* Featured Image */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Featured Image *</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Add a featured image for your article. You can either upload an image or provide a URL.
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {!isApproved && (
+            <Tabs value={imageUploadMethod} onValueChange={(value) => setImageUploadMethod(value as "upload" | "url")}>
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="upload" className="flex items-center gap-2">
+                  <Upload className="h-4 w-4" />
+                  Upload Image
+                </TabsTrigger>
+                <TabsTrigger value="url" className="flex items-center gap-2">
+                  <Link className="h-4 w-4" />
+                  Image URL
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="upload" className="space-y-4">
+                <ImageUploader
+                  onImageUploaded={handleImageUploaded}
+                  type="article"
+                  label="Choose Image File"
+                  initialImageUrl={formData.image}
+                />
+              </TabsContent>
+              
+              <TabsContent value="url" className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="image-url">Image URL</Label>
+                  <Input
+                    id="image-url"
+                    value={formData.image}
+                    onChange={(e) => handleChange("image", e.target.value)}
+                    placeholder="https://example.com/image.jpg"
+                    className={errors.image ? "border-red-500" : ""}
+                  />
+                  <p className="text-sm text-muted-foreground">
+                    Enter a direct URL to an image file (JPG, PNG, GIF)
+                  </p>
+                </div>
+                
+                {formData.image && (
+                  <div className="relative w-full max-w-sm">
+                    <img
+                      src={formData.image}
+                      alt="Preview"
+                      className="rounded-md shadow-md object-cover w-full max-h-64"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        toast.error("Failed to load image from URL");
+                      }}
+                    />
+                  </div>
+                )}
+              </TabsContent>
+            </Tabs>
+          )}
+          
+          {isApproved && formData.image && (
+            <div className="w-full max-w-sm">
+              <img
+                src={formData.image}
+                alt="Featured image"
+                className="rounded-md shadow-md object-cover w-full max-h-64"
+              />
+              <p className="text-sm text-muted-foreground mt-2">Featured Image</p>
+            </div>
+          )}
+          
+          {errors.image && <p className="text-sm text-red-500">{errors.image}</p>}
         </CardContent>
       </Card>
 
