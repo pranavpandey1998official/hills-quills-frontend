@@ -19,11 +19,7 @@ import {
 import { UTTARAKHAND_REGIONS, ARTICLE_CATEGORIES } from "@/types/articles"
 import type { AppDispatch } from "@/redux/store"
 import { toast } from "sonner"
-
-interface ArticleFormProps {
-  mode: "create" | "edit"
-  initialData?: any
-}
+import { ArticleFormProps } from "@/types/articles"
 
 export function ArticleForm({ mode, initialData }: ArticleFormProps) {
   const dispatch = useDispatch<AppDispatch>()

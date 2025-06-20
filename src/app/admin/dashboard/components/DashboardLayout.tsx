@@ -34,6 +34,7 @@ import {
 import type { RootState } from "@/redux/store"
 import type { AppDispatch } from "@/redux/store"
 import { fetchAdminMe } from "@/redux/slices/adminSlice"
+import { DashboardLayoutProps } from "@/types/admin"
 
 const menuItems = [
   { title: "Dashboard", icon: Home, href: "/admin/dashboard" },
@@ -121,10 +122,6 @@ function AppSidebar() {
       </SidebarFooter>
     </Sidebar>
   )
-}
-
-interface DashboardLayoutProps {
-  children: React.ReactNode
 }
 
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {

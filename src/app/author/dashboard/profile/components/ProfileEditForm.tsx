@@ -12,13 +12,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { updateAuthorMe } from "@/redux/slices/authorsSlice"
 import type { AppDispatch } from "@/redux/store"
 import { toast } from "sonner"
-import { Author } from "@/types/author"
+import { ProfileEditFormProps } from "@/types/author"
 
-interface ProfileEditFormProps {
-  profile: Author | null
-  onSave: () => void
-  onCancel: () => void  // Added this prop
-}
 
 export function ProfileEditForm({ profile, onSave, onCancel }: ProfileEditFormProps) {
   const dispatch = useDispatch<AppDispatch>()

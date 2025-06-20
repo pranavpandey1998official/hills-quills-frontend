@@ -126,6 +126,17 @@ export const UTTARAKHAND_REGIONS = [
     "Government Initiatives",
     "Seasonal Tourism",
   ] as const
+
+  export interface ArticleFormProps {
+    mode: "create" | "edit"
+    initialData?: any
+  }
+  export interface PaginationControlsProps {
+    totalCount: number
+    currentPage: number
+    pageSize: number
+    onPageChange?: (page: number) => void
+  }
   
   export type UttarakhandRegion = (typeof UTTARAKHAND_REGIONS)[number]
   export type ArticleCategory = (typeof ARTICLE_CATEGORIES)[number]

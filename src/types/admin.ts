@@ -14,4 +14,8 @@ export interface AdminState {
     error: string | null
     successMessage: string | null
 }
+
+export interface DashboardLayoutProps {
+  children: React.ReactNode
+}
   

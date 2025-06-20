@@ -26,3 +26,18 @@ export interface AuthorsState {
     totalPages: number
     perPage: number
   }
+
+  export interface AuthorDashboardLayoutProps {
+    children: React.ReactNode
+  }
+
+  export interface ProfileViewProps {
+    profile: Author | null
+    isLoading?: boolean
+  }
+
+  export interface ProfileEditFormProps {
+    profile: Author | null
+    onSave: () => void
+    onCancel: () => void  // Added this prop
+  }

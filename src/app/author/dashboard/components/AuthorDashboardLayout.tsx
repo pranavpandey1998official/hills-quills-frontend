@@ -21,6 +21,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { FileText, Plus, User, BarChart3, Settings, LogOut, ChevronUp, Home, Edit, Video } from "lucide-react"
 import type { RootState } from "@/redux/store"
+import { AuthorDashboardLayoutProps } from "@/types/author"
 
 const menuItems = [
   { title: "Dashboard", icon: Home, href: "/author/dashboard" },
@@ -102,10 +103,6 @@ function AuthorSidebar() {
       </SidebarFooter>
     </Sidebar>
   )
-}
-
-interface AuthorDashboardLayoutProps {
-  children: React.ReactNode
 }
 
 export function AuthorDashboardLayout({ children }: AuthorDashboardLayoutProps) {

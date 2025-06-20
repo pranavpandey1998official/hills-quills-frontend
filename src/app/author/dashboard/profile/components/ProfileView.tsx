@@ -18,11 +18,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { sendPasswordOTP, verifyPasswordOTP } from "@/redux/slices/adminSlice"
 import { toggleAuthorStatus } from "@/redux/slices/authorsSlice"
 import type { AppDispatch, RootState } from "@/redux/store"
-
-interface ProfileViewProps {
-  profile: Author | null
-  isLoading?: boolean
-}
+import { ProfileViewProps } from "@/types/author"
 
 // Skeleton Loading Component
 function ProfileSkeleton() {

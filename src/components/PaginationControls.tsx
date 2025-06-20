@@ -2,13 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-
-interface PaginationControlsProps {
-  totalCount: number
-  currentPage: number
-  pageSize: number
-  onPageChange?: (page: number) => void
-}
+import { PaginationControlsProps } from "@/types/articles"
 
 export function PaginationControls({ totalCount, currentPage, pageSize, onPageChange }: PaginationControlsProps) {
   const totalPages = Math.ceil(totalCount / pageSize)

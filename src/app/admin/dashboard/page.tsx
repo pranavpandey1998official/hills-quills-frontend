@@ -1,21 +1,5 @@
 "use client"
 
-// import ProtectedRoute from "@/components/auth/protectedroute"
-// import { useAuth } from "@/hooks/useAuth"
-
-// export default function AdminDashboardPage() {
-//     const { user, logout } = useAuth()
-//   return (
-//     <ProtectedRoute requiredRole="admin">
-//     <div>
-//       <h1>Admin Dashboard</h1>
-//     </div>
-//     </ProtectedRoute>
-//   )
-// }
-
-"use client"
-
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { DashboardLayout } from "@/app/admin/dashboard/components/DashboardLayout"
