@@ -147,6 +147,14 @@ export interface UploadResponse {
   url?: string;
   error?: string;
 }
+
+export interface ImageUploaderProps {
+  onImageUploaded: (imageUrl: string) => void;
+  type?: UploadType;
+  className?: string;
+  label?: string;
+  initialImageUrl?: string;
+}
   
   export type UttarakhandRegion = (typeof UTTARAKHAND_REGIONS)[number]
   export type ArticleCategory = (typeof ARTICLE_CATEGORIES)[number]

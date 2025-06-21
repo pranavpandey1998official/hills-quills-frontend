@@ -1,18 +1,12 @@
 import React, { useState, useRef } from 'react';
-import { uploadImage, UploadType, validateImage, MAX_FILE_SIZE } from '@/lib/uploadImage';
+import { uploadImage, validateImage } from '@/lib/uploadImage';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, X } from 'lucide-react';
+import {ImageUploaderProps} from '@/types/articles'
 
-interface ImageUploaderProps {
-  onImageUploaded: (imageUrl: string) => void;
-  type?: UploadType;
-  className?: string;
-  label?: string;
-  initialImageUrl?: string;
-}
 
 export function ImageUploader({
   onImageUploaded,
