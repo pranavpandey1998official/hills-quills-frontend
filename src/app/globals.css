@@ -120,3 +120,35 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom animations */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-scroll {
+  display: flex;
+  animation: scroll 90s linear infinite;
+  width: max-content;
+}
+
+/* Custom section heading styles */
+.section-heading {
+  border-bottom: 2px solid #1e3a8a;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-bullet {
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: #f97316;
+  border-radius: 0.25rem;
+  margin-right: 0.75rem;
+  display: inline-block;
+}

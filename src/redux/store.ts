@@ -3,6 +3,7 @@ import articlesReducer from "./slices/articlesSlice"
 import storiesReducer from "./slices/storiesSlice"
 import authorsReducer from "./slices/authorsSlice"
 import adminReducer from "./slices/adminSlice"
+import publicArticleReducer from "./slices/PublicArticleSlice"
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     stories: storiesReducer,
     authors: authorsReducer,
     admin: adminReducer,
+    publicArticles: publicArticleReducer,
   },
 })
 

@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { X, Plus, Save, Send, Upload, Link } from "lucide-react"
-import { ImageUploader } from "@/components/ImageUploader" // Adjust import path as needed
+import { ImageUploader } from "@/components/ImageUploader" 
 import { 
   createAuthorArticle, 
   updateAuthorArticle, 
