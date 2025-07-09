@@ -27,7 +27,7 @@ export default function HomePage() {
     // Guaranteed minimum loading time of 1.5 seconds to ensure skeleton displays
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 1500)
+    }, 1000)
     
     // Request more articles to ensure we have at least 5 for top stories
     dispatch(fetchPublicArticles({ limit: 10 }))

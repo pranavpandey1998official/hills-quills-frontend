@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import { WebStoryViewer } from "./web-story-viewer"
-import templeStoryImage from "../../public/images/temple-story.jpg"
+
 
 const webStories = [
   {
@@ -11,7 +11,7 @@ const webStories = [
     title: "A Day in the Life of Badrinath Temple Priests",
     category: "Culture",
     region: "Uttarakhand",
-    image: templeStoryImage.src,
+    image:  "/images/temple-story.jpg",
     gradient: "from-orange-400 to-orange-600",
   },
   {
@@ -19,7 +19,7 @@ const webStories = [
     title: "The Vibrant Colors of Kumaoni Holi Festival",
     category: "Festivals",
     region: "Kumaon",
-    image: templeStoryImage.src,
+    image:  "/images/temple-story.jpg",
     gradient: "from-green-400 to-blue-500",
   },
   {
@@ -27,7 +27,7 @@ const webStories = [
     title: "Trekking Through Valley of Flowers: A Visual Journey",
     category: "Travel",
     region: "Chamoli",
-    image: templeStoryImage.src,
+    image: "/images/temple-story.jpg",
     gradient: "from-blue-400 to-blue-600",
   },
   {
@@ -35,7 +35,7 @@ const webStories = [
     title: "Sacred Rituals at Kedarnath Temple",
     category: "Religion",
     region: "Rudraprayag",
-    image: templeStoryImage.src,
+    image: "/images/temple-story.jpg",
     gradient: "from-orange-400 to-orange-600",
   },
   {
@@ -43,7 +43,7 @@ const webStories = [
     title: "Mountain Wildlife Conservation Efforts",
     category: "Environment",
     region: "Nainital",
-    image: templeStoryImage.src,
+    image: "/images/temple-story.jpg",
     gradient: "from-green-400 to-blue-500",
   },
 ]

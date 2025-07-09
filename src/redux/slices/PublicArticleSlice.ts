@@ -77,6 +77,13 @@ interface PublicArticlesState {
     error: string | null;
   };
   
+  // Culture and heritage articles  
+  cultureHeritage: {
+    items: Article[];
+    isLoading: boolean;
+    error: string | null;
+  };
+  
   // Category and region specific
   categoryArticles: {
     items: Article[];
@@ -179,6 +186,12 @@ const initialState: PublicArticlesState = {
     error: null,
   },
   
+  cultureHeritage: {
+    items: [],
+    isLoading: false,
+    error: null,
+  },
+  
   categoryArticles: {
     items: [],
     isLoading: false,
@@ -245,8 +258,12 @@ export const fetchPublicArticles = createAsyncThunk(
   async (params: ArticleQueryParams = {}) => {
     
     // Use the correct endpoint for latest articles (similar to /top for top news)
-    const { page = 1, limit = 5 } = params;
-    const url = `${API_BASE_URL}/public/articles?page=${page}&limit=${limit}`;
+    const { page = 1, limit = 5, is_top_news } = params;
+    let url = `${API_BASE_URL}/public/articles?page=${page}&limit=${limit}`;
+    
+    if (is_top_news !== undefined) {
+      url += `&is_top_news=${is_top_news}`;
+    }
     
     try {
       const response = await fetch(url);
@@ -275,7 +292,6 @@ export const fetchArticleById = createAsyncThunk(
     if (!response.ok) {
       throw new Error('Failed to fetch article');
     }
-    
     return await response.json();
   }
 );
@@ -355,13 +371,23 @@ export const fetchSearchArticles = createAsyncThunk(
 export const fetchTrendingArticles = createAsyncThunk(
   'publicArticles/fetchTrending',
   async (limit: number = 10) => {
-    const response = await fetch(`${API_BASE_URL}/public/articles/trending?limit=${limit}`);
+    const url = `${API_BASE_URL}/public/articles/trending?limit=${limit}`;
     
-    if (!response.ok) {
-      throw new Error('Failed to fetch trending articles');
+    try {
+      const response = await fetch(url);
+      
+      if (!response.ok) {
+        console.error('Trending articles API error:', response.status, response.statusText);
+        throw new Error('Failed to fetch trending articles');
+      }
+      
+      const data = await response.json();
+      
+      return data;
+    } catch (error) {
+      console.error('Error fetching trending articles:', error);
+      throw error;
     }
-    
-    return await response.json();
   }
 );
 
@@ -370,10 +396,8 @@ export const fetchTopNewsArticles = createAsyncThunk(
   'publicArticles/fetchTopNews',
   async (limit: number = 10) => {
     
-    // Log the URL we're calling
     const url = `${API_BASE_URL}/public/articles/top?limit=${limit}`;
 
-    
     try {
       const response = await fetch(url);
       
@@ -467,15 +491,24 @@ export const fetchArticlesByCategory = createAsyncThunk(
 // 11. Get culture and heritage articles
 export const fetchCultureHeritageArticles = createAsyncThunk(
   'publicArticles/fetchCultureHeritage',
-  async (params: { page?: number, limit?: number } = {}) => {
-    const { page = 1, limit = 10 } = params;  
-    const response = await fetch(`${API_BASE_URL}/public/articles/culture-heritage?page=${page}&limit=${limit}`);
+  async (params: { page?: number, limit?: number, is_top_news?: number } = {}) => {
+    const { page = 1, limit = 10, is_top_news } = params;
+    
+    let url = `${API_BASE_URL}/public/articles/culture-heritage?page=${page}&limit=${limit}`;
+    if (is_top_news !== undefined) {
+      url += `&is_top_news=${is_top_news}`;
+    }
+    
+    const response = await fetch(url);
     
     if (!response.ok) {
       throw new Error('Failed to fetch culture and heritage articles');
     }
     
-    return await response.json();
+    const data = await response.json();
+
+    
+    return data;
   }
 );
 
@@ -553,8 +586,6 @@ const publicArticlesSlice = createSlice({
             state.articles.currentPage = 1;
             state.articles.totalPages = 1;
           }
-          
-          console.log('Successfully extracted', action.payload.data.length, 'articles');
         } 
         // Fallback handlers for other formats
         else if (Array.isArray(action.payload)) {
@@ -651,7 +682,21 @@ const publicArticlesSlice = createSlice({
       })
       .addCase(fetchTrendingArticles.fulfilled, (state, action) => {
         state.trending.isLoading = false;
-        state.trending.items = action.payload;
+        
+        // Handle different response formats like other endpoints
+        if (action.payload && action.payload.data && Array.isArray(action.payload.data)) {
+          state.trending.items = action.payload.data;
+        } 
+        else if (Array.isArray(action.payload)) {
+          state.trending.items = action.payload;
+        }
+        else if (action.payload && action.payload.items && Array.isArray(action.payload.items)) {
+          state.trending.items = action.payload.items;
+        }
+        else {
+          console.warn('Unexpected response format in fetchTrendingArticles:', action.payload);
+          state.trending.items = [];
+        }
       })
       .addCase(fetchTrendingArticles.rejected, (state, action) => {
         state.trending.isLoading = false;
@@ -701,6 +746,34 @@ const publicArticlesSlice = createSlice({
       .addCase(fetchFeaturedArticles.rejected, (state, action) => {
         state.featured.isLoading = false;
         state.featured.error = action.error.message || "Failed to fetch featured articles";
+      })
+      
+      // Fetch culture and heritage articles
+      .addCase(fetchCultureHeritageArticles.pending, (state) => {
+        state.cultureHeritage.isLoading = true;
+        state.cultureHeritage.error = null;
+      })
+      .addCase(fetchCultureHeritageArticles.fulfilled, (state, action) => {
+        state.cultureHeritage.isLoading = false;
+        
+        // Handle different response formats
+        if (action.payload && action.payload.data && Array.isArray(action.payload.data)) {
+          state.cultureHeritage.items = action.payload.data;
+        } 
+        else if (Array.isArray(action.payload)) {
+          state.cultureHeritage.items = action.payload;
+        }
+        else if (action.payload && action.payload.items && Array.isArray(action.payload.items)) {
+          state.cultureHeritage.items = action.payload.items;
+        }
+        else {
+          console.warn('Unexpected response format in fetchCultureHeritageArticles:', action.payload);
+          state.cultureHeritage.items = [];
+        }
+      })
+      .addCase(fetchCultureHeritageArticles.rejected, (state, action) => {
+        state.cultureHeritage.isLoading = false;
+        state.cultureHeritage.error = action.error.message || "Failed to fetch culture and heritage articles";
       })
       
       // Fetch articles by tags
