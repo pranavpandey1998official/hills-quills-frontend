@@ -2,14 +2,16 @@
 
 import { useEffect, useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
-import { fetchTrendingArticles, fetchPublicArticles } from "@/redux/slices/PublicArticleSlice"
-import { RootState } from "@/redux/store"
+import { fetchTrendingArticles, fetchPublicArticles, fetchArticleById } from "@/redux/slices/PublicArticleSlice"
+import { RootState, AppDispatch } from "@/redux/store"
 import { Article } from "@/types/articles"
 
 export function FeaturedArticlesGrid() {
-  const dispatch = useDispatch()
+  const router = useRouter()
+  const dispatch = useDispatch<AppDispatch>()
   
   // Get data from Redux store
   const { items: trendingArticles, isLoading: trendingLoading } = useSelector(
@@ -58,6 +60,12 @@ export function FeaturedArticlesGrid() {
   const featuredArticle = topTrendingArticles[0] || null
   const secondaryArticles = topTrendingArticles.slice(1, 4) // Next 3 trending articles
   const moreArticles = topPublicArticles.slice(0, 7) // 7 articles for right column
+
+  // Handle article click navigation
+  const handleArticleClick = (article: Article) => {
+    dispatch(fetchArticleById(article.id))
+    router.push(`/articles/${article.id}`)
+  }
   
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -78,7 +86,7 @@ export function FeaturedArticlesGrid() {
         {/* Left Column - Featured Article (40%) */}
         <div className="lg:col-span-5">
           {featuredArticle ? (
-            <div className="group cursor-pointer">
+            <div className="group cursor-pointer" onClick={() => handleArticleClick(featuredArticle)}>
               {featuredArticle.image && (
                 <div className="relative h-64 md:h-80 overflow-hidden rounded-lg mb-4 bg-gray-200">
                   <Image
@@ -124,7 +132,7 @@ export function FeaturedArticlesGrid() {
           <div className="space-y-6">
             {secondaryArticles.length > 0 ? (
               secondaryArticles.map((article: Article) => (
-                <div key={article.id} className="group cursor-pointer">
+                <div key={article.id} className="group cursor-pointer" onClick={() => handleArticleClick(article)}>
                   {article.image && (
                     <div className="relative h-40 overflow-hidden rounded-lg mb-3 bg-gray-200">
                       <Image
@@ -178,7 +186,7 @@ export function FeaturedArticlesGrid() {
           <div>
             {moreArticles.length > 0 ? moreArticles.map((article: Article, index: number) => (
               <div key={article.id}>
-                <div className="group cursor-pointer py-3">
+                <div className="group cursor-pointer py-3" onClick={() => handleArticleClick(article)}>
                   <div className="flex space-x-3">
                     <div className="relative w-16 h-16 flex-shrink-0 overflow-hidden rounded-lg">
                       <Image

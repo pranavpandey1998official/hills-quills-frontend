@@ -2,13 +2,15 @@
 
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
-import { fetchCultureHeritageArticles, fetchPublicArticles } from "@/redux/slices/PublicArticleSlice"
+import { fetchCultureHeritageArticles, fetchPublicArticles, fetchArticleById } from "@/redux/slices/PublicArticleSlice"
 import { RootState, AppDispatch } from "@/redux/store"
 import { Article } from "@/types/articles"
 
 export function FeaturedArticlesGrid() {
+  const router = useRouter()
   const dispatch = useDispatch<AppDispatch>()
   
   // Get data from Redux store
@@ -32,6 +34,12 @@ export function FeaturedArticlesGrid() {
   const featuredArticle = topCultureArticles.length > 0 ? topCultureArticles[0] : null
   const secondaryArticles = topCultureArticles.slice(1, 4) // Next 3 articles for middle column
   const moreArticles = normalArticles.slice(0, 7) // Show 8 articles in right column
+
+  // Handle article click navigation
+  const handleArticleClick = (article: Article) => {
+    dispatch(fetchArticleById(article.id))
+    router.push(`/articles/${article.id}`)
+  }
 
   // Error state
   if (cultureError || publicError) {
@@ -73,7 +81,7 @@ export function FeaturedArticlesGrid() {
         {/* Left Column - Featured Article (40%) */}
         <div className="lg:col-span-5">
           {featuredArticle ? (
-            <div className="group cursor-pointer">
+            <div className="group cursor-pointer" onClick={() => handleArticleClick(featuredArticle)}>
               <div className="relative h-64 md:h-80 overflow-hidden rounded-lg mb-4">
                 <Image
                   src={featuredArticle.image || "/placeholder.svg"}
@@ -121,7 +129,7 @@ export function FeaturedArticlesGrid() {
         <div className="lg:col-span-4">
           <div className="space-y-6">
             {secondaryArticles.length > 0 ? secondaryArticles.map((article: Article) => (
-              <div key={article.id} className="group cursor-pointer">
+              <div key={article.id} className="group cursor-pointer" onClick={() => handleArticleClick(article)}>
                 <div className="relative h-40 overflow-hidden rounded-lg mb-3">
                   <Image
                     src={article.image || "/placeholder.svg"}
@@ -175,7 +183,7 @@ export function FeaturedArticlesGrid() {
           <div>
             {moreArticles.length > 0 ? moreArticles.map((article: Article, index: number) => (
               <div key={article.id}>
-                <div className="group cursor-pointer py-3">
+                <div className="group cursor-pointer py-3" onClick={() => handleArticleClick(article)}>
                   <div className="flex space-x-3">
                     <div className="relative w-16 h-16 flex-shrink-0 overflow-hidden rounded-lg">
                       <Image

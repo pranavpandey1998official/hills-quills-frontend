@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useMemo, useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { AdBanner } from "@/components/articles/ad-banner"
-import { fetchPublicArticles } from "@/redux/slices/PublicArticleSlice"
-import { RootState } from "@/redux/store"
+import { fetchPublicArticles, fetchArticleById } from "@/redux/slices/PublicArticleSlice"
+import { RootState, AppDispatch } from "@/redux/store"
 import { Article } from "@/types/articles"
 
 interface MoreStoriesSectionProps {
@@ -19,7 +20,8 @@ export function MoreStoriesSection({
   showAdBanners = true,
   excludeIds = []
 }: MoreStoriesSectionProps) {
-  const dispatch = useDispatch()
+  const router = useRouter()
+  const dispatch = useDispatch<AppDispatch>()
   const [displayedStories, setDisplayedStories] = useState<Article[]>([])
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
@@ -154,6 +156,12 @@ export function MoreStoriesSection({
     return () => window.removeEventListener("scroll", handleScroll)
   }, [loadMoreStories])
 
+  // Handle article click navigation
+  const handleArticleClick = (article: Article) => {
+    dispatch(fetchArticleById(article.id))
+    router.push(`/articles/${article.id}`)
+  }
+
   // Split stories into groups of 6 for ad placement
   const storyGroups = []
   for (let i = 0; i < displayedStories.length; i += 6) {
@@ -171,7 +179,7 @@ export function MoreStoriesSection({
         <div key={groupIndex}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {group.map((story: Article) => (
-              <div key={story.id} className="group cursor-pointer">
+              <div key={story.id} className="group cursor-pointer" onClick={() => handleArticleClick(story)}>
                 <div className="relative h-52 overflow-hidden rounded-lg mb-4">
                   <Image
                     src={story.image || "/placeholder.svg"}

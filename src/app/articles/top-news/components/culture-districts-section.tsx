@@ -2,13 +2,15 @@
 
 import { useEffect, useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { fetchCultureHeritageArticles, fetchPublicArticles } from "@/redux/slices/PublicArticleSlice"
-import { RootState } from "@/redux/store"
+import { fetchCultureHeritageArticles, fetchPublicArticles, fetchArticleById } from "@/redux/slices/PublicArticleSlice"
+import { RootState, AppDispatch } from "@/redux/store"
 import { Article } from "@/types/articles"
 
 export function CultureDistrictsSection() {
-  const dispatch = useDispatch()
+  const router = useRouter()
+  const dispatch = useDispatch<AppDispatch>()
   
   // Get data from Redux store
   const { items: cultureArticles, isLoading: cultureLoading } = useSelector(
@@ -52,6 +54,12 @@ export function CultureDistrictsSection() {
     return finalResult;
   }, [cultureArticles, publicArticles])
 
+  // Handle article click navigation
+  const handleArticleClick = (article: Article) => {
+    dispatch(fetchArticleById(article.id))
+    router.push(`/articles/${article.id}`)
+  }
+
   // Get district articles (public articles with is_top_news=1)
   const districtArticles = useMemo(() => {
     const publicArray = Array.isArray(publicArticles) ? publicArticles : []
@@ -84,7 +92,7 @@ export function CultureDistrictsSection() {
             {topCultureArticles.length > 0 ? (
               <>
                 {/* Large Culture Article */}
-                <div className="group cursor-pointer">
+                <div className="group cursor-pointer" onClick={() => handleArticleClick(topCultureArticles[0])}>
                   <div className="relative h-60 overflow-hidden rounded-lg mb-4">
                     <Image
                       src={topCultureArticles[0].image || "/placeholder.svg?height=240&width=400"}
@@ -112,7 +120,7 @@ export function CultureDistrictsSection() {
                 {topCultureArticles.length > 1 && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {topCultureArticles.slice(1, 3).map((article: Article) => (
-                      <div key={article.id} className="group cursor-pointer">
+                      <div key={article.id} className="group cursor-pointer" onClick={() => handleArticleClick(article)}>
                         <div className="relative h-40 overflow-hidden rounded-lg mb-3">
                           <Image
                             src={article.image || "/placeholder.svg?height=160&width=200"}
@@ -161,7 +169,7 @@ export function CultureDistrictsSection() {
             {districtArticles.length > 0 ? (
               districtArticles.map((article: Article, index: number) => (
                 <div key={article.id}>
-                  <div className="group cursor-pointer py-3">
+                  <div className="group cursor-pointer py-3" onClick={() => handleArticleClick(article)}>
                     <div className="flex space-x-4">
                       <div className="relative w-32 h-24 flex-shrink-0 overflow-hidden rounded-lg">
                         <Image
