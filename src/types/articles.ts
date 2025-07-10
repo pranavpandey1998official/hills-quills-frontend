@@ -24,6 +24,9 @@ export interface Article {
     author_name: string
     author_email: string
     rejection_reason?: string // Added field for article rejection reason
+    author_profile_photo_url: string
+    author_about: string
+    author_profession: string
 }
 
 export interface ArticlesState {

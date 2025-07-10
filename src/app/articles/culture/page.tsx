@@ -6,7 +6,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { TopNewsIntro } from "@/components/articles/top-news-intro"
 import { FeaturedArticlesGrid } from "@/app/articles/culture/components/featured-articles-grid"
-import { WebStoriesSection } from "@/app/articles/top-news/components/web-stories-section"
+import { WebStories } from "@/components/web-stories/web-stories"
 import { CultureDistrictsSection } from "@/app/articles/culture/components/culture-districts-section"
 import { MoreStoriesSection } from "@/components/articles/more-stories-section"
 import { AdBanner } from "@/components/articles/ad-banner"
@@ -96,7 +96,7 @@ export default function CulturePage() {
       <AdBanner />
 
       {/* Web Stories Section */}
-      <WebStoriesSection />
+      <WebStories />
 
       {/* Culture & Districts Section */}
       <CultureDistrictsSection />

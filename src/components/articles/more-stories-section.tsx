@@ -2,10 +2,9 @@
 
 import { useState, useEffect, useMemo, useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useRouter } from "next/navigation"
-import Image from "next/image"
 import { AdBanner } from "@/components/articles/ad-banner"
-import { fetchPublicArticles, fetchArticleById } from "@/redux/slices/PublicArticleSlice"
+import { ArticleCard } from "@/components/articles/article-card"
+import { fetchPublicArticles } from "@/redux/slices/PublicArticleSlice"
 import { RootState, AppDispatch } from "@/redux/store"
 import { Article } from "@/types/articles"
 
@@ -20,7 +19,6 @@ export function MoreStoriesSection({
   showAdBanners = true,
   excludeIds = []
 }: MoreStoriesSectionProps) {
-  const router = useRouter()
   const dispatch = useDispatch<AppDispatch>()
   const [displayedStories, setDisplayedStories] = useState<Article[]>([])
   const [loading, setLoading] = useState(false)
@@ -156,12 +154,6 @@ export function MoreStoriesSection({
     return () => window.removeEventListener("scroll", handleScroll)
   }, [loadMoreStories])
 
-  // Handle article click navigation
-  const handleArticleClick = (article: Article) => {
-    dispatch(fetchArticleById(article.id))
-    router.push(`/articles/${article.id}`)
-  }
-
   // Split stories into groups of 6 for ad placement
   const storyGroups = []
   for (let i = 0; i < displayedStories.length; i += 6) {
@@ -179,37 +171,17 @@ export function MoreStoriesSection({
         <div key={groupIndex}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {group.map((story: Article) => (
-              <div key={story.id} className="group cursor-pointer" onClick={() => handleArticleClick(story)}>
-                <div className="relative h-52 overflow-hidden rounded-lg mb-4">
-                  <Image
-                    src={story.image || "/placeholder.svg"}
-                    alt={story.title}
-                    fill
-                    className="object-cover transition-all duration-500 group-hover:scale-105"
-                  />
-                  {/* Both region and category badges on image */}
-                  <div className="absolute top-2 left-2 flex space-x-2">
-                    <span className="bg-orange-500 text-white px-2 py-1 rounded text-xs font-medium">
-                      {story.region}
-                    </span>
-                    <span className="bg-gray-600 text-white px-2 py-1 rounded text-xs font-medium">
-                      {story.category}
-                    </span>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <h3 className="font-bold text-lg leading-tight group-hover:text-orange-600 transition-colors line-clamp-2">
-                    {story.title}
-                  </h3>
-                  <span className="text-sm text-gray-500">
-                    {new Date(story.created_at).toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </span>
-                </div>
-              </div>
+              <ArticleCard
+                key={story.id}
+                article={story}
+                showDescription={false}
+                imageHeight="h-52"
+                showBadgesOnHover={false}
+                showRegionBadge={true}
+                showCategoryBadge={true}
+                showReadMoreBadge={false}
+                enableComplexHoverEffects={false}
+              />
             ))}
           </div>
 

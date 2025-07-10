@@ -6,7 +6,7 @@ import { TrendingTags } from "@/components/trending-tags"
 import { FeaturedArticle } from "@/components/articles/featured-article"
 import { TopStories } from "@/components/articles/top-stories"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchPublicArticles, fetchTopNewsArticles } from "@/redux/slices/PublicArticleSlice"
+import { fetchPublicArticles, fetchTrendingArticles } from "@/redux/slices/PublicArticleSlice"
 import { WebStories } from "@/components/web-stories/web-stories"
 import { Footer } from "@/components/footer"
 import { RootState, AppDispatch } from "@/redux/store"
@@ -17,11 +17,11 @@ export default function HomePage() {
   
   const { 
     articles: { items: articles, isLoading: articlesLoading, error: articlesError },
-    topNews: { items: topNewsArticles, isLoading: topNewsLoading, error: topNewsError }
+    trending: { items: trendingArticles, isLoading: trendingLoading, error: trendingError }
   } = useSelector((state: RootState) => state.publicArticles)
   
-  const loading = articlesLoading || topNewsLoading || isLoading
-  const error = articlesError || topNewsError
+  const loading = articlesLoading || trendingLoading || isLoading
+  const error = articlesError || trendingError
 
   useEffect(() => {
     // Guaranteed minimum loading time of 1.5 seconds to ensure skeleton displays
@@ -31,7 +31,7 @@ export default function HomePage() {
     
     // Request more articles to ensure we have at least 5 for top stories
     dispatch(fetchPublicArticles({ limit: 10 }))
-    dispatch(fetchTopNewsArticles(5))
+    dispatch(fetchTrendingArticles(5))
     
     return () => clearTimeout(timer) // Clean up timeout
   }, [dispatch])
@@ -118,7 +118,7 @@ export default function HomePage() {
               onClick={() => {
                 setIsLoading(true) // Reset loading state
                 dispatch(fetchPublicArticles({ limit: 10 }))
-                dispatch(fetchTopNewsArticles(5))
+                dispatch(fetchTrendingArticles(5))
               }}
               className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
             >
@@ -135,7 +135,12 @@ export default function HomePage() {
     )
   }
 
-  const featuredArticle = topNewsArticles && topNewsArticles.length > 0 ? topNewsArticles[0] : null
+  const featuredArticle = trendingArticles && trendingArticles.length > 0 ? trendingArticles[0] : null
+  
+  // Filter out the featured article from the articles array to prevent duplicate keys
+  const filteredArticles = featuredArticle 
+    ? articles.filter(article => article.id !== featuredArticle.id)
+    : articles
 
   return (
     <div className="min-h-screen bg-white">
@@ -145,7 +150,7 @@ export default function HomePage() {
         <>
           <TrendingTags />
           {featuredArticle && <FeaturedArticle article={featuredArticle} />}
-          <TopStories articles={articles} />
+          <TopStories articles={filteredArticles} />
           <WebStories />
         </>
       )}

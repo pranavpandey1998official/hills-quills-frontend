@@ -143,6 +143,13 @@ interface PublicArticlesState {
     totalCount: number;
     currentPage: number;
   };
+
+  // Trending tags
+  trendingTags: {
+    items: string[];
+    isLoading: boolean;
+    error: string | null;
+  };
 }
 
 const initialState: PublicArticlesState = {
@@ -235,6 +242,12 @@ const initialState: PublicArticlesState = {
     currentTags: [],
     totalCount: 0,
     currentPage: 1,
+  },
+
+  trendingTags: {
+    items: [],
+    isLoading: false,
+    error: null,
   },
 };
 
@@ -431,7 +444,33 @@ export const fetchFeaturedArticles = createAsyncThunk(
   }
 );
 
-// 8. Get articles by tags
+// 8. Get trending tags
+export const fetchTrendingTags = createAsyncThunk(
+  'publicArticles/fetchTrendingTags',
+  async (timeframe: 'day' | 'week' | 'month' = 'week') => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/public/articles/trending/tags?timeframe=${timeframe}`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch trending tags');
+      }
+      
+      const data = await response.json();
+      
+      // Handle the API response format based on the example
+      if (data.success && Array.isArray(data.data)) {
+        return data.data;
+      } else {
+        throw new Error('Invalid response format for trending tags');
+      }
+    } catch (error) {
+      console.error('Error fetching trending tags:', error);
+      throw error;
+    }
+  }
+);
+
+// 9. Get articles by tags
 export const fetchArticlesByTags = createAsyncThunk(
   'publicArticles/fetchByTags',
   async (params: { tags: string[], page?: number, limit?: number }) => {
@@ -791,6 +830,20 @@ const publicArticlesSlice = createSlice({
       .addCase(fetchArticlesByTags.rejected, (state, action) => {
         state.tagArticles.isLoading = false;
         state.tagArticles.error = action.error.message || "Failed to fetch articles by tags";
+      })
+      
+      // Fetch trending tags
+      .addCase(fetchTrendingTags.pending, (state) => {
+        state.trendingTags.isLoading = true;
+        state.trendingTags.error = null;
+      })
+      .addCase(fetchTrendingTags.fulfilled, (state, action) => {
+        state.trendingTags.isLoading = false;
+        state.trendingTags.items = action.payload;
+      })
+      .addCase(fetchTrendingTags.rejected, (state, action) => {
+        state.trendingTags.isLoading = false;
+        state.trendingTags.error = action.error.message || "Failed to fetch trending tags";
       })
       
       // Fetch articles by category
