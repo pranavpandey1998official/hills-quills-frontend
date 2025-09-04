@@ -1,32 +1,84 @@
-export enum ArticleStatus {
-    Pending  = "pending",
-    Approved = "approved",
-    Rejected = "rejected",
-    Draft    = "draft",
-  }
+import z from "zod";
 
-export interface Article {
-    id: number | string
-    author_id: number
-    title: string
-    tags: string[]
-    description: string
-    content: string
-    category: string
-    region: string
-    image: string
-    status: ArticleStatus
-    is_top_news: number // 0 or 1
-    views_count: number
-    publish_date: string | null
-    created_at: string
-    updated_at: string
-    author_name: string
-    author_email: string
-    rejection_reason?: string // Added field for article rejection reason
-    author_profile_photo_url: string
-    author_about: string
-    author_profession: string
+export enum ArticleStatus {
+  Pending  = "pending",
+  Approved = "approved",
+  Rejected = "rejected",
+  Draft    = "draft",
+}
+
+export enum Category {
+  Politics = "politics",
+  Defence = "defence",
+  Economy = "economy",
+  Environment = "environment",
+  Education = "education",
+  Health = "health",
+  Tourism = "tourism",
+  Culture = "culture",
+  unknown = "unknown",
+}
+
+export enum Region {
+  Almora = "Almora",
+  Bageshwar = "Bageshwar",
+  Chamoli = "Chamoli",
+  Champawat = "Champawat",
+  Dehradun = "Dehradun",
+  Haridwar = "Haridwar",
+  Nainital = "Nainital",
+  PauriGarhwal = "Pauri Garhwal",
+  Pithoragarh = "Pithoragarh",
+  Rudraprayag = "Rudraprayag",
+  TehriGarhwal = "Tehri Garhwal",
+  UdhamSinghNagar = "Udham Singh Nagar",
+  Uttarkashi = "Uttarkashi",
+}
+
+
+// Zod schema
+export const ArticleViewSchema = z.object({
+  id: z.number(),
+  author_id: z.number(),
+  title: z.string(),
+  content: z.string(),
+  category: z.enum(Category),
+  region: z.enum(Region),
+  image: z.string(),
+  updated_at: z.string(),
+  rejection_reason: z.string().optional().nullable(),
+});
+
+export const ArticleViewWithAuthorSchema = ArticleViewSchema.extend({
+  tags: z.array(z.string()),
+  author_name: z.string(),
+  author_email: z.string(),
+  author_profile_photo_url: z.string().optional(),
+  author_about: z.string().optional(),
+  author_profession: z.string().optional(),
+});
+
+export type ArticleViewWithAuthor = z.infer<typeof ArticleViewWithAuthorSchema>;
+
+// Type inference (if you want Zod type instead of interface)
+export type ArticleView = z.infer<typeof ArticleViewSchema>;
+
+export const ArticleSchema = ArticleViewSchema.extend({
+  publish_date: z.string().nullable(),
+  created_at: z.string(),
+  status: z.enum(ArticleStatus),
+});
+
+export type Article = z.infer<typeof ArticleSchema>;
+
+
+export type ArticleUpdates = {
+  title?: string;
+  content?: string;
+  category?: string;
+  region?: string;
+  imageFile?: File | undefined;
+  tags?: string[];
 }
 
 export interface ArticlesState {
@@ -130,6 +182,8 @@ export const UTTARAKHAND_REGIONS = [
     "Seasonal Tourism",
   ] as const
 
+
+
   export interface ArticleFormProps {
     mode: "create" | "edit"
     initialData?: any
@@ -158,6 +212,4 @@ export interface ImageUploaderProps {
   label?: string;
   initialImageUrl?: string;
 }
-  
-  export type UttarakhandRegion = (typeof UTTARAKHAND_REGIONS)[number]
-  export type ArticleCategory = (typeof ARTICLE_CATEGORIES)[number]
+

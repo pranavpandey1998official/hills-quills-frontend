@@ -33,12 +33,8 @@ export function ArticleCard({
   showReadMoreBadge = true,
   enableComplexHoverEffects = true
 }: ArticleCardProps) {
-  const router = useRouter()
-  const dispatch = useDispatch<AppDispatch>()
 
   const handleClick = () => {
-    dispatch(fetchArticleById(article.id))
-    router.push(`/articles/${article.id}`)
   }
 
   // Extract region from tags or use default (for backward compatibility)

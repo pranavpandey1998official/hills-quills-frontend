@@ -1,11 +1,20 @@
+// WebStories.tsx
 "use client"
 
 import { useState } from "react"
 import Image from "next/image"
 import { WebStoryViewer } from "./web-story-viewer"
 
+export type Story = {
+  id: string
+  title: string
+  category: string
+  region: string
+  image: string
+  gradient: string
+}
 
-const webStories = [
+const defaultStories: Story[] = [
   {
     id: "1",
     title: "A Day in the Life of Badrinath Temple Priests",
@@ -30,25 +39,9 @@ const webStories = [
     image: "/images/temple-story.jpg",
     gradient: "from-blue-400 to-blue-600",
   },
-  {
-    id: "4",
-    title: "Sacred Rituals at Kedarnath Temple",
-    category: "Religion",
-    region: "Rudraprayag",
-    image: "/images/temple-story.jpg",
-    gradient: "from-orange-400 to-orange-600",
-  },
-  {
-    id: "5",
-    title: "Mountain Wildlife Conservation Efforts",
-    category: "Environment",
-    region: "Nainital",
-    image: "/images/temple-story.jpg",
-    gradient: "from-green-400 to-blue-500",
-  },
 ]
 
-export function WebStories() {
+export function WebStories({ stories = defaultStories }: { stories?: Story[] }) {
   const [isViewerOpen, setIsViewerOpen] = useState(false)
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0)
 
@@ -62,7 +55,7 @@ export function WebStories() {
   }
 
   const nextStory = () => {
-    if (currentStoryIndex < webStories.length - 1) {
+    if (currentStoryIndex < stories.length - 1) {
       setCurrentStoryIndex(currentStoryIndex + 1)
     } else {
       closeStoryViewer()
@@ -92,7 +85,7 @@ export function WebStories() {
         </div>
 
         <div className="flex space-x-4 overflow-x-auto scrollbar-hide pb-4">
-          {webStories.map((story, index) => (
+          {stories.map((story, index) => (
             <div
               key={story.id}
               className="flex-shrink-0 w-48 h-96 relative rounded-2xl overflow-hidden cursor-pointer group"
@@ -106,7 +99,7 @@ export function WebStories() {
                 className="object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-110 group-hover:saturate-125"
               />
               <div className="absolute bottom-0 left-0 right-0 p-4 pb-5 bg-gradient-to-t from-black/80 to-transparent">
-                <h3 className="text-white font-serif text-base font-small leading-tight line-clamp-2">{story.title}</h3>
+                <h3 className="text-white font-serif text-base leading-tight line-clamp-2">{story.title}</h3>
                 <p className="text-white/70 text-xs font-sans mt-1">{story.category} • {story.region}</p>
               </div>
             </div>
@@ -115,7 +108,7 @@ export function WebStories() {
       </section>
 
       <WebStoryViewer
-        stories={webStories}
+        stories={stories}
         currentStoryIndex={currentStoryIndex}
         isOpen={isViewerOpen}
         onClose={closeStoryViewer}

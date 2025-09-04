@@ -15,10 +15,10 @@ import { MoreStoriesSection } from "./more-stories-section"
 import { WebStories } from "@/components/web-stories/web-stories"
 import { fetchPublicArticles, fetchArticleById, fetchTrendingTags } from "@/redux/slices/PublicArticleSlice"
 import { RootState, AppDispatch } from "@/redux/store"
-import { Article } from "@/types/articles"
+import { Article, ArticleViewWithAuthor } from "@/types/articles"
 
 interface ArticleDetailProps {
-  article: Article
+  article: ArticleViewWithAuthor
 }
 
 export function ArticleDetailView({ article }: ArticleDetailProps) {
@@ -117,9 +117,7 @@ export function ArticleDetailView({ article }: ArticleDetailProps) {
 
   // Combine description and content into paragraphs
   const contentParagraphs = article.content.split("\n\n")
-  const paragraphs = article.description 
-    ? [article.description, ...contentParagraphs]
-    : contentParagraphs
+  const paragraphs = contentParagraphs
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -150,11 +148,6 @@ export function ArticleDetailView({ article }: ArticleDetailProps) {
           <div className="text-sm text-gray-500">
             <span>By {article.author_name || "Staff Reporter"}</span>
             <span className="mx-2">•</span>
-            <span>{new Date(article.created_at).toLocaleDateString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })}</span>
           </div>
           <div className="flex items-center space-x-4">
             <Button
@@ -189,22 +182,9 @@ export function ArticleDetailView({ article }: ArticleDetailProps) {
           <div className="prose prose-lg max-w-none">
             {paragraphs.map((paragraph, index) => (
               <div key={index}>
-                {index === 0 && article.description && paragraph === article.description ? (
-                  // Style the description paragraph differently - larger, bold, and prominent
-                  <p className="text-xl font-semibold text-gray-900 leading-relaxed mb-8 border-l-4 border-orange-500 pl-4 bg-orange-50 py-4">
-                    {paragraph}
-                  </p>
-                ) : paragraph.startsWith("Sustainable Development Initiatives") ? (
-                  <h3 className="text-xl font-bold text-gray-900 mt-8 mb-4">{paragraph}</h3>
-                ) : paragraph.startsWith("Challenges and Opportunities") ? (
-                  <h3 className="text-xl font-bold text-gray-900 mt-8 mb-4">{paragraph}</h3>
-                ) : paragraph.startsWith('"Our goal') ? (
-                  <blockquote className="border-l-4 border-orange-500 pl-4 italic text-gray-700 my-6 bg-gray-50 py-4">
-                    {paragraph}
-                  </blockquote>
-                ) : (
+
                   <p className="text-gray-800 leading-relaxed mb-6">{paragraph}</p>
-                )}
+              
 
                 {/* Insert inline ads after specific paragraphs - adjust index for description */}
                 {(index === 3 || index === 6) && <InlineAdBanner />}
@@ -265,81 +245,6 @@ export function ArticleDetailView({ article }: ArticleDetailProps) {
       {/* Ad Banner */}
       <AdBanner />
 
-      {/* More Stories Section */}
-      {!showAllStories ? (
-        <div className="mb-12">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">More Stories</h2>
-            <button 
-              onClick={() => setShowAllStories(true)}
-              className="text-gray-500 hover:text-gray-700 font-medium text-sm flex items-center"
-            >
-              View All
-              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
-
-          {articlesLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[1, 2, 3].map((index) => (
-                <div key={index} className="animate-pulse">
-                  <div className="bg-gray-300 h-40 rounded-lg mb-3"></div>
-                  <div className="bg-gray-300 h-4 rounded mb-2"></div>
-                  <div className="bg-gray-300 h-3 rounded w-3/4"></div>
-                </div>
-              ))}
-            </div>
-          ) : initialMoreStories.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {initialMoreStories.map((story: Article) => (
-                <div key={story.id} className="group cursor-pointer" onClick={() => handleInitialStoryClick(story)}>
-                  <div className="relative h-40 overflow-hidden rounded-lg mb-3">
-                    <Image
-                      src={story.image || "/placeholder.svg"}
-                      alt={story.title}
-                      fill
-                      className="object-cover transition-all duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute top-2 left-2 flex space-x-2">
-                      <Badge className="bg-yellow-500 text-white px-2 py-1 rounded text-xs font-medium">
-                        {story.region}
-                      </Badge>
-                      <Badge className="bg-gray-600 text-white px-2 py-1 rounded text-xs font-medium">
-                        {story.category}
-                      </Badge>
-                    </div>
-                  </div>
-                  <h3 className="font-semibold leading-tight group-hover:text-orange-600 transition-colors line-clamp-2">
-                    {story.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 mt-1">
-                    {new Date(story.created_at).toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-8">
-              <p className="text-gray-500">No more stories available at the moment.</p>
-            </div>
-          )}
-        </div>
-      ) : (
-        <MoreStoriesSection 
-          title="More Stories" 
-          showAdBanners={true} 
-          excludeIds={[article.id]}
-        />
-      )}
-
-      {/* Web Stories Section */}
-      <WebStories />
     </div>
   )
 }

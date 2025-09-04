@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
+
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
@@ -9,18 +12,15 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-  {
-    rules: {
-      // Disable strict apostrophe escaping
-      "react/no-unescaped-entities": "off",
-      // Allow 'any' type for development freedom
-      "@typescript-eslint/no-explicit-any": "off",
-      // Temporarily ignore unused variables/interfaces
-      "@typescript-eslint/no-unused-vars": "off"
-    }
+const eslintConfig = [...compat.extends("next/core-web-vitals", "next/typescript"), {
+  rules: {
+    // Disable strict apostrophe escaping
+    "react/no-unescaped-entities": "off",
+    // Allow 'any' type for development freedom
+    "@typescript-eslint/no-explicit-any": "off",
+    // Temporarily ignore unused variables/interfaces
+    "@typescript-eslint/no-unused-vars": "off"
   }
-];
+}, ...storybook.configs["flat/recommended"]];
 
 export default eslintConfig;

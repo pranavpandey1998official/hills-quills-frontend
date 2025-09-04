@@ -14,25 +14,15 @@ import { Loader2, Mail, Lock, User, Shield } from "lucide-react"
 import { LoginFormProps } from "@/types/auth"
 
 
-export default function LoginForm({ userType }: LoginFormProps) {
+export default function LoginForm({ isAdmin, handleLogin, isLoading, error  }: LoginFormProps) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const router = useRouter()
-  const { login, isLoading, error } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
-    try {
-      await login({ email, password, userType })
-      // Redirect based on user type
-      router.push(userType === "admin" ? "/admin/dashboard" : "/author/dashboard")
-    } catch (err) {
-      console.error("Login failed:", err)
-    }
+    await handleLogin(email, password)
   }
 
-  const isAdmin = userType === "admin"
 
   return (
     <Card className="w-full max-w-md mx-auto shadow-xl border-0">
@@ -104,7 +94,7 @@ export default function LoginForm({ userType }: LoginFormProps) {
                 Signing in...
               </>
             ) : (
-              `Sign in as ${userType.charAt(0).toUpperCase() + userType.slice(1)}`
+              `Sign in as ${isAdmin ? "Admin" : "Author"}`
             )}
           </Button>
         </form>

@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     domains: [
       'res.cloudinary.com',  // Allow Cloudinary images
       'cloudinary.com',      // Additional Cloudinary domain
+      'hillsquills.blob.core.windows.net',
       'via.placeholder.com', // Allow placeholder images
     ],
     // You can also use remotePatterns for more specific control

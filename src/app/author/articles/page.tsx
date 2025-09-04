@@ -7,10 +7,11 @@ import { AuthorArticlesFilters } from "./components/AuthorArticlesFilters"
 import { DetailedArticlesTable } from "./components/DetailedArticlesTable"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Plus, FileText, BarChart3 } from "lucide-react"
+import { Plus, FileText, BarChart3, User } from "lucide-react"
 import { fetchAuthorArticles } from "@/redux/slices/articlesSlice"
 import type { RootState, AppDispatch } from "@/redux/store"
 import ProtectedRoute from "@/components/auth/protectedroute"
+import { UserRole } from "@/types/auth"
 
 export default function AuthorArticlesPage() {
   const dispatch = useDispatch<AppDispatch>()
@@ -26,7 +27,7 @@ export default function AuthorArticlesPage() {
   const rejectedCount = articles.filter((article) => article.status === "rejected").length
 
   return (
-    <ProtectedRoute requiredRole="author">
+    <ProtectedRoute requiredRole={UserRole.AUTHOR}>
     <AuthorDashboardLayout>
       <div className="space-y-6">
         {/* Header */}

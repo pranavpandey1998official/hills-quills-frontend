@@ -10,12 +10,19 @@ export interface LoginResponse {
 
 //loginparams
 export type LoginFormProps = {
-  userType: "admin" | "author"
+  isAdmin: boolean;
+  handleLogin: (email: string, password: string) => Promise<void>;
+  isLoading: boolean;
+  error: string | null;
 }
 
 //useAuth type
 
-export type UserRole = 'admin' | 'author';
+export enum UserRole {
+  ADMIN = "admin",
+  AUTHOR = "author",
+  UNKNOWN = "unknown",
+}
 
 export interface User {
   id: string;
@@ -32,15 +39,6 @@ export type LoginCredentials = {
   email: string;
   password: string;
   userType: UserRole;
-};
-
-export type AuthContextType = {
-  user: User | null;
-  isLoading: boolean;
-  error: string | null;
-  login: (credentials: LoginCredentials) => Promise<void>;
-  logout: () => void;
-  authenticatedFetch: (url: string, options?: RequestInit) => Promise<Response>;
 };
 
 //protected route props

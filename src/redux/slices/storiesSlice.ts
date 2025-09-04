@@ -8,7 +8,7 @@ interface StorySlide {
   duration: number
 }
 
-interface Story {
+export interface Story {
   id: string
   title: string
   category: string

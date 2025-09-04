@@ -1,9 +1,11 @@
+import { LoginResponseSchema } from "@/types/common";
 import { apiClient } from "./api";
 import { LoginRequest, LoginResponse, User } from "@/types/auth";
 
 export const authApi = {
     async login(credentials: LoginRequest): Promise<LoginResponse> {
-      return apiClient.post<LoginResponse>('/auth/login', credentials);
+      const result = await apiClient.post<LoginResponse>('/auth/login', credentials);
+      return LoginResponseSchema.parse(result.data);
     },
   
     async logout(): Promise<void> {

@@ -6,61 +6,46 @@ import { ArticlesState ,ArticleStatus,CreateArticleInput, UpdateArticleInput, Ti
 const initialState: ArticlesState = {
   items: [
     {
-      id: "1",
+      id: 1,
       author_id: 1,
       title: "Breaking News: Major Development in Tech Industry",
-      tags: ["tech", "innovation", "breaking"],
       description: "A major development has occurred in the tech industry.",
       content: "Content of the article about tech development.",
       category: "Technology",
       region: "Global",
       image: "/images/tech.jpg",
       status: ArticleStatus.Pending,
-      is_top_news: 0,
-      views_count: 120,
       publish_date: null,
       created_at: "2024-01-15T10:00:00Z",
       updated_at: "2024-01-15T10:00:00Z",
-      author_name: "John Doe",
-      author_email: "john@example.com"
     },
     {
-      id: "2",
+      id: 2,
       author_id: 2,
       title: "Local Elections Show Surprising Results",
-      tags: ["politics", "elections", "local"],
       description: "The local elections have shown surprising results.",
       content: "Content of the article about local elections.",
       category: "Politics",
       region: "US",
       image: "/images/politics.jpg",
       status: ArticleStatus.Approved,
-      is_top_news: 1,
-      views_count: 150,
       publish_date: "2024-01-14T15:30:00Z",
       created_at: "2024-01-14T15:30:00Z",
       updated_at: "2024-01-14T15:30:00Z",
-      author_name: "Jane Smith",
-      author_email: "jane@example.com"
     },
     {
-      id: "3",
+      id: 3,
       author_id: 3,
       title: "Climate Change Impact on Agriculture",
-      tags: ["climate", "agriculture", "environment"],
       description: "Climate change is having a significant impact on agriculture.",
       content: "Content of the article about climate change and agriculture.",
       category: "Environment",
       region: "Europe",
       image: "/images/climate.jpg",
       status: ArticleStatus.Rejected,
-      is_top_news: 0,
-      views_count: 100,
       publish_date: null,
       created_at: "2024-01-13T09:15:00Z",
       updated_at: "2024-01-13T09:15:00Z",
-      author_name: "Mike Johnson",
-      author_email: "mike@example.com",
       rejection_reason: "Article content is not relevant to the category"
     },
   ],
@@ -655,9 +640,6 @@ const articlesSlice = createSlice({
       })
       .addCase(toggleTopNews.fulfilled, (state, action) => {
         const article = state.items.find((item) => String(item.id) === action.payload)
-        if (article) {
-          article.is_top_news = article.is_top_news === 1 ? 0 : 1
-        }
       })
       .addCase(bulkApproveArticles.fulfilled, (state, action) => {
         action.payload.forEach((id) => {
@@ -684,9 +666,6 @@ const articlesSlice = createSlice({
       .addCase(bulkToggleTopNews.fulfilled, (state, action) => {
         action.payload.forEach((id) => {
           const article = state.items.find((item) => String(item.id) === id)
-          if (article) {
-            article.is_top_news = article.is_top_news === 1 ? 0 : 1
-          }
         })
       })
       .addCase(resubmitArticle.fulfilled, (state, action) => {

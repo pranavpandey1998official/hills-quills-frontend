@@ -4,6 +4,60 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Providers } from "@/redux/provider";
+import { Toaster } from "@/components/ui/sonner";
+import localFont from "next/font/local";
+
+const helveticaNow = localFont({
+  src: [
+    
+    {
+      path: "../../public/fonts/helvetica/HelveticaNowDisplay-Hairline.woff",
+      weight: "100",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/helvetica/HelveticaNowDisplay-Thin.woff",
+      weight: "200",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/helvetica/HelveticaNowDisplay-ExtLt.woff",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/helvetica/HelveticaNowDisplay-Light.woff",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/helvetica/HelveticaNowDisplay-Regular.woff",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/helvetica/HelveticaNowDisplay-Medium.woff",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/helvetica/HelveticaNowDisplay-Bold.woff",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/helvetica/HelveticaNowDisplay-ExtraBold.woff",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/helvetica/HelveticaNowDisplay-ExtraBold.woff",
+      weight: "900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-helvetica",
+});
 
 // Initialize the Inter font
 const inter = Inter({ subsets: ["latin"] });
@@ -13,6 +67,7 @@ export const metadata: Metadata = {
   description: "Hills & Quills Frontend Portal",
 };
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -20,10 +75,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("min-h-screen bg-background font-sans antialiased", inter.className)}>
+      <body className={cn("min-h-screen bg-background font-sans antialiased", helveticaNow.variable)}>
         <Providers>
           <AuthProvider>
             <div className="relative flex min-h-screen flex-col">
+              <Toaster />
               {children}
             </div>
           </AuthProvider>

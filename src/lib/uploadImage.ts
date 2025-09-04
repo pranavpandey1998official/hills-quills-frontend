@@ -48,7 +48,7 @@ export const uploadImage = async (
     formData.append('type', type);
     
     // Use the API client to make the request
-    const url = `${API_BASE_URL}/upload-image`;
+    const url = `${API_BASE_URL}/upload`;
     
     // For FormData, we need to use fetch directly since our apiClient is set up for JSON
     const token = localStorage.getItem('auth_token');

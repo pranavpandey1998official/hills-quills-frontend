@@ -31,7 +31,7 @@ import {
   clearSearch,
 } from "@/redux/slices/articlesSlice"
 import type { RootState, AppDispatch } from "@/redux/store"
-import { PaginationControls } from "@/components/PaginationControls"
+import { PaginationControls } from "@/components/pagination-controls"
 import { DeleteArticleDialog } from "@/components/ArticleDeleteDialog"
 import { toast } from "sonner"
 import { 

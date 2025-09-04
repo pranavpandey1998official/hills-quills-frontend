@@ -21,7 +21,7 @@ import { Edit, Trash2, MoreHorizontal, Eye, Send, Video, TrendingUp, Play } from
 import { formatDistanceToNow } from "date-fns"
 import { deleteStory, resubmitStory } from "@/redux/slices/storiesSlice"
 import type { RootState, AppDispatch } from "@/redux/store"
-import { PaginationControls } from "@/components/PaginationControls"
+import { PaginationControls } from "@/components/pagination-controls"
 import { toast } from "sonner"
 
 export function AuthorStoriesTable() {

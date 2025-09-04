@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { API_BASE_URL } from "@/types/constant"
-import {Author,AuthorsState,AuthorStatus} from "@/types/author"
+import {Author, AuthorsState} from "@/types/author"
 
 
 
@@ -322,9 +322,6 @@ const authorsSlice = createSlice({
           // Update is_active field directly
           author.is_active = action.payload.isActive ? 1 : 0
           // Also update status if it exists (for backward compatibility)
-          if ('status' in author) {
-            author.status = action.payload.isActive ? AuthorStatus.active : AuthorStatus.inactive
-          }
         }
       })
       .addCase(toggleAuthorStatus.rejected, (state, action) => {

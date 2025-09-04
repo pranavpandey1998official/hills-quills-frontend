@@ -15,13 +15,14 @@ export default function ProtectedRoute({ children, requiredRole }: ProtectedRout
   useEffect(() => {
     if (!isLoading) {
       // If not authenticated, redirect to login page
-      if (!user) {
+      if (!user || user.role === UserRole.UNKNOWN) {
         router.push(requiredRole === 'admin' ? '/login/admin' : '/login/author');
         return;
       }
 
       // If a role is required and user doesn't have it, redirect to appropriate dashboard
       if (requiredRole && user.role !== requiredRole) {
+        console.log(user)
         router.push(user.role === 'admin' ? '/admin/dashboard' : '/author/dashboard');
       }
     }

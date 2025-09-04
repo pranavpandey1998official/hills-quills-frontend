@@ -1,20 +1,18 @@
-export enum AuthorStatus {
-    active = "active",
-    inactive = "inactive"
-}
 
-export interface Author {
-    id: string | number
-    name: string
-    email: string
-    status: AuthorStatus
-    article_count: number
-    is_active: number
-    created_at: string
-    profession?: string
-    about?: string
-    profile_photo_url?: string
-  }
+
+import { z } from "zod";
+
+export const AuthorSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  email: z.string().email(),
+  is_active: z.number(),
+  profession: z.string().optional(),
+  about: z.string().optional(),
+  profile_photo_url: z.string().url().optional(),
+});
+
+export type Author = z.infer<typeof AuthorSchema>;
   
 export interface AuthorsState {
     items: Author[]
