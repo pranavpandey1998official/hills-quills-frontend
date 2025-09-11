@@ -1,7 +1,5 @@
-"use client"
-
-import React, { useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
+'use client'
+import React from "react"
 import {
   Sidebar,
   SidebarContent,
@@ -28,10 +26,7 @@ import {
   Users, 
   BarChart3, 
 } from "lucide-react"
-import type { RootState } from "@/redux/store"
-import type { AppDispatch } from "@/redux/store"
-import { fetchAdminMe } from "@/redux/slices/adminSlice"
-import { DashboardLayoutProps } from "@/types/admin"
+import { useAdmin } from "@/features/auth/hooks"
 
 const menuItems = [
   { title: "Articles", icon: FileText, href: "/admin/articles" },
@@ -41,8 +36,7 @@ const menuItems = [
 ]
 
 function AppSidebar() {
-  const admin = useSelector((state: RootState) => state.admin.profile)
-
+  const { admin } = useAdmin()
   return (
     <Sidebar>
       <SidebarHeader>
@@ -84,10 +78,10 @@ function AppSidebar() {
                     <AvatarImage src={"/placeholder.svg"} />
                     <AvatarFallback>
                       <UserCircle className="h-4 w-4" />
-                      {admin?.username?.charAt(0).toUpperCase() || "A"}
+                      {admin?.email?.charAt(0).toUpperCase() || "A"}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="truncate">{admin?.username || "Admin"}</span>
+                  <span className="truncate">{admin?.email || "Admin"}</span>
                   <ChevronUp className="ml-auto h-4 w-4" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
@@ -106,15 +100,11 @@ function AppSidebar() {
     </Sidebar>
   )
 }
+export interface DashboardLayoutProps {
+  children: React.ReactNode
+}
 
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
-  const { profile } = useSelector((state: RootState) => state.admin)
-  const dispatch = useDispatch<AppDispatch>()
-
-  useEffect(() => {
-    dispatch(fetchAdminMe())
-  }, [dispatch])
-
   return (
     <SidebarProvider>
       <AppSidebar />

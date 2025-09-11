@@ -3,12 +3,12 @@ module.exports = {
       "./src/**/*.{js,ts,jsx,tsx,html}",
       "./.storybook/**/*.{js,ts,jsx,tsx,mdx}"
     ],
+    safelist: [
+      'text-2xs',
+    ],
     theme: {
-      extend: {
-        fontFamily: {
-          sans: ["var(--font-helvetica)", "Helvetica", "Arial", "sans-serif"]
-        },
-      }
     },
-    plugins: [],
+    plugins: [
+      require('@tailwindcss/container-queries')
+    ],
   }

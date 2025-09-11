@@ -1,5 +1,4 @@
 import imageCompression from 'browser-image-compression';
-import { uploadImage } from './uploadImage';
 import { UploadImageResponse } from '@/types/common';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
@@ -100,8 +99,9 @@ export const apiClient = {
   ): Promise<Response<UploadImageResponse>> {
     try {
       const options = {
-        maxSizeMB: 1,
+        maxSizeMB: 0.5,
         useWebWorker: true,
+        maxIteration: 30,
       }
       const compressedFile = await imageCompression(file, options);
   

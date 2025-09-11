@@ -1,11 +1,11 @@
 "use client"
 import { useParams, useRouter } from "next/navigation"
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
+import { Header } from "@/components/molecules/header"
+import { Footer } from "@/components/molecules/footer"
 import { useArticleById } from "../../hooks/article"
-import ArticleDetailContent from "@/components/molecules/article-detail/content"
-import { AuthorCard } from "@/components/molecules/article-detail/author"
-import ArticleDetailHeader from "@/components/molecules/article-detail/header"
+import ArticleDetailContent from "@/features/article/component/article-detail/content"
+import { AuthorCard } from "@/features/article/component/article-detail/author"
+import ArticleDetailHeader from "@/features/article/component/article-detail/header"
 
 export default function ArticleDetailPage() {
   const params = useParams()

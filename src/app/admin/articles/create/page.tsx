@@ -4,8 +4,8 @@ import * as React from 'react';
 import { Button } from '@/components/ui/button';
 
 import { Save } from 'lucide-react';
-import ArticleForm from '../components/ArticleForm';
-import { useCreateArticleForm } from '../../hooks/useCreateArticle';
+import ArticleForm from '@/features/article/component/article-form';
+import { useCreateArticleForm } from '@/features/article/hooks/useCreateArticleForm';
 
 
 export default function BlogCreateForm() {

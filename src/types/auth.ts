@@ -13,7 +13,6 @@ export type LoginFormProps = {
   isAdmin: boolean;
   handleLogin: (email: string, password: string) => Promise<void>;
   isLoading: boolean;
-  error: string | null;
 }
 
 //useAuth type

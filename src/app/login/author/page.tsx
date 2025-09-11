@@ -1,12 +1,12 @@
 "use client"
 
-import LoginForm from "@/components/auth/loginform"
+import LoginForm from "@/features/auth/components/loginform"
 import { ArrowLeft, PenTool } from "lucide-react"
 import Link from "next/link"
 import { useAuthorLogin } from "./hook"
 
 export default function AuthorLoginPage() {
-  const { handleAuthor, isLoading, error } =  useAuthorLogin()
+  const { handleAuthor, isLoading } =  useAuthorLogin()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-100">
@@ -37,7 +37,7 @@ export default function AuthorLoginPage() {
           <div className="absolute top-20 right-10 w-24 h-24 bg-green-200 rounded-full opacity-20 animate-pulse delay-500" />
           <div className="absolute bottom-32 left-10 w-16 h-16 bg-green-300 rounded-full opacity-15 animate-pulse delay-1500" />
 
-          <LoginForm isAdmin={false} handleLogin={handleAuthor} isLoading={isLoading} error={error} />
+          <LoginForm isAdmin={false} handleLogin={handleAuthor} isLoading={isLoading} />
 
           {/* Footer */}
           <div className="mt-8 text-center">

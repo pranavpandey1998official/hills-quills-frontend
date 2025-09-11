@@ -22,11 +22,11 @@ const preview: Preview = {
   },
   decorators: [
     (Story) => (
-      <>
+      <div >
         <Story />
         {/* Mount toast at root */}
         <Toaster position="top-right" />
-      </>
+      </div>
     ),
   ],
 };

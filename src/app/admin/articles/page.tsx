@@ -2,20 +2,12 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
-import { useArticles } from '../hooks/article';
-import { useFilterHook } from '../hooks/useFilterHook';
+import { useArticles } from '@/features/article/hooks';
+import { useArticleFilterHook } from '@/features/article/hooks/useArticleFilterHook';
 import { useRouter } from 'next/navigation';
-import { Plus, Search, Filter } from 'lucide-react';
-import { ArticleStatus } from '@/types/articles';
-import { ArticlesTable } from './components/ArticlesTable';
+import { Plus} from 'lucide-react';
+import { ArticlesTable } from '../../../features/article/component/articles-table';
+import Filter from '@/components/molecules/filter';
 
 export default function ArticlesPage() {
   const router = useRouter();
@@ -30,15 +22,7 @@ export default function ArticlesPage() {
     setStatusFilter,
     setCategoryFilter,
     setRegionFilter,
-  } = useFilterHook(articles);
-  const uniqueCategories = useMemo(
-    () => [...new Set(articles?.map((article) => article.category))],
-    [articles]
-  );
-  const uniqueRegions = useMemo(
-    () => [...new Set(articles?.map((article) => article.region))],
-    [articles]
-  );
+  } = useArticleFilterHook(articles);
 
   const handleCreateNew = () => {
     router.push('/admin/articles/create');
@@ -65,69 +49,16 @@ export default function ArticlesPage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-muted/30 flex flex-col gap-4 rounded-lg p-4">
-        <div className="flex items-center gap-2 text-sm font-medium">
-          <Filter className="h-4 w-4" />
-          Filters
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {/* Search */}
-          <div className="relative">
-            <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
-            <Input
-              placeholder="Search articles..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-
-          {/* Status Filter */}
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger>
-              <SelectValue placeholder="Filter by status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Statuses</SelectItem>
-              <SelectItem value={ArticleStatus.Draft}>Draft</SelectItem>
-              <SelectItem value={ArticleStatus.Pending}>Pending</SelectItem>
-              <SelectItem value={ArticleStatus.Approved}>Approved</SelectItem>
-              <SelectItem value={ArticleStatus.Rejected}>Rejected</SelectItem>
-            </SelectContent>
-          </Select>
-
-          {/* Category Filter */}
-          <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger>
-              <SelectValue placeholder="Filter by category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
-              {uniqueCategories.map((category) => (
-                <SelectItem key={category} value={category}>
-                  {category}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          {/* Region Filter */}
-          <Select value={regionFilter} onValueChange={setRegionFilter}>
-            <SelectTrigger>
-              <SelectValue placeholder="Filter by region" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Regions</SelectItem>
-              {uniqueRegions.map((region) => (
-                <SelectItem key={region} value={region}>
-                  {region}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
+      <Filter
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        statusFilter={statusFilter}
+        setStatusFilter={setStatusFilter}
+        categoryFilter={categoryFilter}
+        setCategoryFilter={setCategoryFilter}
+        regionFilter={regionFilter}
+        setRegionFilter={setRegionFilter}
+      />
 
       {/* Articles Table */}
       <ArticlesTable articles={filteredArticles} isLoading={isLoading} />

@@ -1,18 +1,19 @@
-import { useAuth } from "@/hooks/useAuth"
+import { useAuth } from "@/features/auth/hooks/useAuth"
 import { UserRole } from "@/types/auth"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 export const useAuthorLogin = () => {
-    const { login, isLoading, error } = useAuth()
+    const { login, isLoading } = useAuth()
     const router = useRouter()
 
     const handleAuthor = async (email: string, password: string) => {
         try {
             await login({ email, password, userType: UserRole.ADMIN })
-            router.push("/admin/dashboard")
+            router.push("/author/dashboard")
         } catch (err) {
-            console.error("Admin login failed:", err)
+            toast.error("Author login failed: " + err)
         }
     }
-    return { handleAuthor, isLoading, error }
+    return { handleAuthor, isLoading }
 }

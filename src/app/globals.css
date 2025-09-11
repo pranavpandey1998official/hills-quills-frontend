@@ -3,6 +3,11 @@
 @import "@uiw/react-md-editor/markdown-editor.css";
 @import "@uiw/react-markdown-preview/markdown.css";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind container-queries;
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -43,6 +48,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --text-2xs: 0.65rem;
+  --font-sans: var(--font-helvetica), "Helvetica", "Arial", "sans-serif"
 }
 
 :root {
@@ -129,7 +136,7 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 
@@ -147,8 +154,8 @@
 }
 
 .section-bullet {
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 0.8em;
+  height: 0.8em;
   background-color: #f97316;
   border-radius: 0.25rem;
   margin-right: 0.75rem;

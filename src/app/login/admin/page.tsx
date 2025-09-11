@@ -1,12 +1,12 @@
 "use client"
 
-import LoginForm from "@/components/auth/loginform"
+import LoginForm from "@/features/auth/components/loginform"
 import { ArrowLeft, Building2 } from "lucide-react"
 import Link from "next/link"
 import { useAdminLogin } from "./hooks"
 
 export default function AdminLoginPage() {
-  const { handleAdminLogin, isLoading, error } =  useAdminLogin()
+  const { handleAdminLogin, isLoading } =  useAdminLogin()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100">
@@ -37,7 +37,7 @@ export default function AdminLoginPage() {
           <div className="absolute top-20 left-10 w-20 h-20 bg-blue-200 rounded-full opacity-20 animate-pulse" />
           <div className="absolute bottom-20 right-10 w-32 h-32 bg-blue-300 rounded-full opacity-10 animate-pulse delay-1000" />
 
-          <LoginForm isAdmin handleLogin={handleAdminLogin} isLoading={isLoading} error={error}  />
+          <LoginForm isAdmin handleLogin={handleAdminLogin} isLoading={isLoading}  />
 
           {/* Footer */}
           <div className="mt-8 text-center">

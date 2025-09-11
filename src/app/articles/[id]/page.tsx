@@ -1,34 +1,39 @@
 "use client"
-
-import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
-import { ArticleDetailView } from "@/components/articles/article-detail-view"
-import { AdBanner } from "@/components/articles/ad-banner"
-import { useDispatch, useSelector } from "react-redux"
-import { fetchArticleById } from "@/redux/slices/PublicArticleSlice"
-import { RootState, AppDispatch } from "@/redux/store"
+import { Header } from "@/components/molecules/header"
+import { Footer } from "@/components/molecules/footer"
+import { useApprovedArticleById } from "@/features/article/hooks"
+import ArticleDetailContent from "@/features/article/component/article-detail/content"
+import { AuthorCard } from "@/features/article/component/article-detail/author"
+import ArticleDetailHeader from "@/features/article/component/article-detail/header"
+import { Label, Separator } from "@radix-ui/react-select"
+import { Badge } from "@/components/ui/badge"
+import { ArrowLeft } from "lucide-react"
+import { useLatestNews, useWebStories } from "@/features/article/hooks"
+import { Article } from "@/features/article/types"
+import SectionHeader from "@/components/molecules/section-header"
+import ArticleEqualGrid from "../../../features/article/component/article-equal-grid"
+import SectionBreak from "@/components/molecules/section-break"
+import WebStoryList from "../../../features/web-story/component/web-story-list"
+import TagBadge from "@/components/molecules/tag-badge"
 
 export default function ArticleDetailPage() {
   const params = useParams()
   const router = useRouter()
-  const dispatch = useDispatch<AppDispatch>()
   
-  // Get the selected article from Redux
-  const { item: article, isLoading: loading, error } = useSelector((state: RootState) => state.publicArticles.selectedArticle)
+  // Get the selected article from Redu
 
   const articleId = params.id as string
+  const { data: article, isLoading: loading, error } = useApprovedArticleById(Number(articleId))
+  const { data: latestNews, isLoading: latestNewsLoading } = useLatestNews()
+  const { data: webStories, isLoading: webStoriesLoading } = useWebStories()
 
-  useEffect(() => {
-    // Always fetch the article by ID
-    dispatch(fetchArticleById(articleId))
-  }, [dispatch, articleId])
+  const latestNewsWithoutCurrentArticle = latestNews?.data.filter((news: Article) => news.id !== Number(articleId)).slice(0,6)
 
-  if (loading) {
+
+  if (loading || !article) {
     return (
-      <div className="min-h-screen bg-white">
-        <Header />
+      <div className="min-h-screen max-w-7xl w-full md:px-8 2xl:px-0 px-4 mx-auto bg-white">
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
@@ -39,50 +44,47 @@ export default function ArticleDetailPage() {
     )
   }
 
-  if (error) {
+  
     return (
-      <div className="min-h-screen bg-white">
+      <>
+      <div className="min-h-screen max-w-7xl w-full md:px-8 2xl:px-0 px-4 mx-auto bg-white">
         <Header />
-        <div className="flex items-center justify-center h-96">
-          <div className="text-center">
-            <p className="text-red-600 mb-4">Error: {error}</p>
-            <button 
-              onClick={() => router.push("/")}
-              className="text-orange-500 hover:text-orange-600 underline"
-            >
-              Go back to home
-            </button>
+        <button
+          onClick={() => router.push("/")}
+          className="text-gray-500 hover:text-gray-900 text-sm font-light flex items-center"
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to Home
+        </button>
+        <ArticleDetailHeader  article={article!} />
+        <SectionBreak />
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-2">
+            <ArticleDetailContent content={article!.content} />
+            <SectionBreak />
+            <Separator className="border-gray-200 border-1" />
+          </div>
+          <div className="col-span-1">
+            <AuthorCard name={article!.author_name} profile_photo_url={article!.author_profile_photo_url!} profession={article!.author_profession!} about={article!.author_about!} role={'role'} />
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-lg font-medium text-gray-600">Popular Tags</h2>
+            <div className="flex flex-wrap gap-2">
+              {article!.tags.map((tag) => (
+                <TagBadge key={tag} tag={tag} />
+              ))}
+            </div>
           </div>
         </div>
+        <SectionBreak />
+        <SectionHeader title="More Stories"></SectionHeader>
+        <ArticleEqualGrid articles={latestNewsWithoutCurrentArticle} />
+        <SectionBreak />
+        <SectionHeader title="Web Stories"></SectionHeader>
+        <WebStoryList stories={webStories} onStoryClick={() => {}} />
+        <SectionBreak />
       </div>
-    )
-  }
-
-  if (!article) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Header />
-        <div className="flex items-center justify-center h-96">
-          <div className="text-center">
-            <p className="text-gray-600 mb-4">Article not found</p>
-            <button 
-              onClick={() => router.push("/")}
-              className="text-orange-500 hover:text-orange-600 underline"
-            >
-              Go back to home
-            </button>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      <AdBanner />
-      <ArticleDetailView article={article} />
       <Footer />
-    </div>
-  )
+    </>
+    )
 }
