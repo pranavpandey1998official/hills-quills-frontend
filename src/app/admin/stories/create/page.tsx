@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Save, Send } from 'lucide-react';
 import StoryForm from '../../../../features/web-story/component/story-form';
-import { useCreateStoryForm } from '../../hooks/useCreateStoryForm';
+import { useCreateStoryForm } from '@/features/web-story/hooks/useCreateStoryForm';
 
 
 export default function CreateStoryPage() {

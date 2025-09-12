@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import ArticleCardVertical from "./article-card-vertical";
 import { Article } from "@/features/article/types";
 import { Category, Region, Status } from "@/types/common";
 
 const meta: Meta<typeof ArticleCardVertical> = {
-  title: "molecules/ArticleCard/Vertical",
+  title: "articles/ArticleCard/Vertical",
   component: ArticleCardVertical,
   parameters: {
     layout: "centered",

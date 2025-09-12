@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { PaginationControls } from "./pagination-controls";
 import { PaginationControlsProps } from "./pagination-controls";
 
 const meta: Meta<typeof PaginationControls> = {
-  title: "Components/PaginationControls",
+  title: "molecules/PaginationControls",
   component: PaginationControls,
   parameters: {
     layout: "centered",

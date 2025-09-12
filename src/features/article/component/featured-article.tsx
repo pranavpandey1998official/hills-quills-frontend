@@ -27,7 +27,7 @@ export function FeaturedArticle({ article }: FeaturedArticleProps) {
   return (
     <Link href={`/articles/${article.id}`}>
     <section>
-      <div className="relative h-[90vh] md:h-[60vh] cursor-pointer group overflow-hidden rounded-xl border border-gray-200 hover:border-orange-200 hover:shadow-lg transition-all duration-300" onClick={handleClick}>
+      <div className="relative h-[90vh] md:h-[60vh] cursor-pointer group overflow-hidden rounded-xl border border-gray-200 hover:border-primary-light hover:shadow-lg transition-all duration-300" onClick={handleClick}>
         <Image
           src={article.image.previewUrl || "/placeholder.svg"}
           alt={article.title}

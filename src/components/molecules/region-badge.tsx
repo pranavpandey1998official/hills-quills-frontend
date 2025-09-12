@@ -1,13 +1,18 @@
 import { Badge } from "../ui/badge";
 import { Region } from "@/types/common";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function RegionBadge({ region, variant = "secondary" }: { region: Region, variant?: "secondary" | "outline" }) {
-    const className = variant === "secondary" ? "bg-orange-400 py-1 px-2 font-medium rounded-sm text-2xs text-white hover:bg-orange-600" : "py-1 px-2 font-medium rounded-xl text-orange-500 text-2xs hover:text-white border-2 hover:bg-orange-600";
+    const router = useRouter();
+    const className = variant === "secondary" ? "bg-primary py-1 px-2 font-medium rounded-sm text-2xs text-white hover:bg-primary-dark" : "py-1 px-2 bg-white border-primary font-medium rounded-xl text-primary text-2xs hover:text-white border-2 hover:bg-primary-dark";
     return (
-    <Link href={`/region/${region}`} prefetch={false}>
-        <Badge variant="secondary" className={className}>
-            {region.toLocaleUpperCase()}
-        </Badge>
-    </Link>)
+    <Badge
+      onClick={() => {
+        router.push(`/region/${region}`);
+      }}
+      variant="secondary"
+      className={className}
+    >
+        {region.toLocaleUpperCase()}
+    </Badge>)
 }

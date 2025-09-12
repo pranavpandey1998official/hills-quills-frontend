@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { Plus} from 'lucide-react';
 import { ArticlesTable } from '../../../features/article/component/articles-table';
 import Filter from '@/components/molecules/filter';
+import Loading from '@/components/molecules/loading';
 
 export default function ArticlesPage() {
   const router = useRouter();
@@ -29,7 +30,7 @@ export default function ArticlesPage() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />
   }
 
   return (

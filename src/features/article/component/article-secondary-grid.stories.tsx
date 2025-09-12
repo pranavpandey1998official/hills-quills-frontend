@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import SecondaryGrid from "../../../app/articles/components/article-secondary-grid";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import SecondaryGrid from "@/features/article/component/article-secondary-grid";
 import { Article } from "@/features/article/types";
 import { Category, Region, Status } from "@/types/common";
 

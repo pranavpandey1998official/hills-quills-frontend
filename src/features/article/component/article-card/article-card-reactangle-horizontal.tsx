@@ -14,7 +14,7 @@ const ArticleCardRectangleHorizontal = ({ article }: { article: Article }) => {
             <img
               src={article.image.previewUrl || "/placeholder.svg"}
               alt={article.title}
-              className="rounded-lg  object-cover aspect-video"
+              className="rounded-lg object-cover aspect-video"
             />
           </div>
 

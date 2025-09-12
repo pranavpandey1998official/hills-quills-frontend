@@ -26,15 +26,16 @@ const useRegionPage = (region: Region) => {
 
 
 
-const RegionPage = ({ params }: { params: Usable<{region: string}> }) => {
+const RegionPage = ({ params }: { params: Promise<{region: string}> }) => {
     
     let { region } = React.use(params)
     region = decodeURIComponent(region)
+
+    const { regionArticles, latestNews, topNews } = useRegionPage(region as Region)
+
     if (!Object.values(Region).includes(region as Region)) { 
         return <div>Region not found</div>
     }
-
-    const { regionArticles, latestNews, topNews } = useRegionPage(region as Region)
 
     return (
         <>

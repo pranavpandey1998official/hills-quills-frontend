@@ -1,24 +1,20 @@
 "use client"
 
 import { useParams } from "next/navigation";
-import { Category, Region } from "@/types/common";
+import { Category } from "@/types/common";
 import { Header } from "@/components/molecules/header";
 import { Footer } from "@/components/molecules/footer";
 import MoreArticles from "@/features/article/component/more-articles";
 import SectionHeader from "@/components/molecules/section-header";
 import SectionBreak from "@/components/molecules/section-break";
-import { useArticlesByCategory, useArticlesByRegion, useLatestNews, useTopNews } from "@/features/article/hooks";
+import { useArticlesByCategory, useLatestNews, useTopNews } from "@/features/article/hooks";
 import SectionEqualGrid from "@/features/article/component/article-equal-grid";
 import { Article } from "@/features/article/types";
 import ArticleList from "@/features/article/component/article-list";
 import { capitalizeFirstLetter } from "@/lib/utils";
 
 const CategoryPage = () => {
-    var { category } = useParams()
-    
-    if (!Object.values(Category).includes(category as Category)) { 
-        return <div>Category not found</div>
-    }
+    const { category } = useParams()
 
     const { data: categoryArticles } = useArticlesByCategory(category as Category)
     const { data: latestNews } = useLatestNews()
@@ -26,6 +22,10 @@ const CategoryPage = () => {
 
     const { data: topNews } = useTopNews()
     const topNewsWithoutCategoryArticles = topNews?.filter((news: Article) => !categoryArticles?.some((article: Article) => article.id === news.id)).slice(0, 4)
+
+    if (!Object.values(Category).includes(category as Category)) { 
+        return <div>Category not found</div>
+    }
 
     return (
         <>

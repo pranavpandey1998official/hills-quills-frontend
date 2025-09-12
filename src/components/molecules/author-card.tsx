@@ -13,7 +13,7 @@ export function AuthorCard({ author }: AuthorCardProps) {
   return (
     <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
       {/* Title Bar */}
-      <div className="bg-orange-500 text-white px-4 py-2">
+      <div className="bg-primary text-white px-4 py-2">
         <h3 className="font-bold text-sm uppercase tracking-wide">About the Author</h3>
       </div>
 

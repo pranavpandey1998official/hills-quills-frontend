@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/api";
-import { StorySchema, Story, SlideSchema, Slide, StoryView } from "@/features/web-story/types";
+import { StorySchema, Story, SlideSchema, Slide, StoryView, SlideUpdates } from "@/features/web-story/types";
 import { Status } from "@/types/common";
 import { Region } from "@/types/common";
 import { Category } from "@/types/common";
@@ -30,6 +30,17 @@ export async function createStory(authorId: number, title: string, region: Regio
         slides,
         cover_image_url,
     });
+    return StorySchema.parse(result.data);
+}
+
+export async function updateStory(id: number, title?: string, category?: string, region?: string, cover_image_url?: string, tags?: string[]) {
+    const result = await apiClient.put<Story>(`/web_stories/${id}`, {
+        title,
+        category,
+        region,
+        cover_image_url,
+        tags,
+    })
     return StorySchema.parse(result.data);
 }
 
@@ -65,4 +76,35 @@ export async function fetchStoryById(id: number): Promise<StoryView> {
 export async function fetchLatestWebStories(cursor: number, limit: number): Promise<Story[]> {
     const result = await apiClient.get<Story[]>(`/web_stories/approved/latest?cursor=${cursor}&limit=${limit}`);
     return result.data.map((item: any) => StorySchema.parse(item));
+}
+
+export async function fetchGarhwalWebStories(cursor: number, limit: number): Promise<Story[]> {
+    const result = await apiClient.get<Story[]>(`/web_stories/approved/garhwal?cursor=${cursor}&limit=${limit}`);
+    return result.data.map((item: any) => StorySchema.parse(item));
+}
+
+export async function fetchKumaonWebStories(cursor: number, limit: number): Promise<Story[]> {
+    const result = await apiClient.get<Story[]>(`/web_stories/approved/kumaon?cursor=${cursor}&limit=${limit}`);
+    return result.data.map((item: any) => StorySchema.parse(item));
+}
+
+export async function deleteSlidesForStory(storyId: number, slides: SlideForm[]): Promise<Slide[]> {
+    const result = await apiClient.post<Slide[]>(`/web_stories/${storyId}/delete_slides`, {
+        slide_ids: slides.map((slide) => slide.id),
+    });
+    return result.data.map((item: any) => SlideSchema.parse(item));
+}
+
+export async function createSlidesForStory(storyId: number, slides: {slide_order: number, image_url: string, caption: string, duration: number}[]): Promise<Slide[]> {
+    const result = await apiClient.post<Slide[]>(`/web_stories/${storyId}/add_slides`, {
+        slides,
+    });
+    return result.data.map((item: any) => SlideSchema.parse(item));
+}
+
+export async function updateSlide(id: number, updates: SlideUpdates): Promise<Slide[]> {
+    const result = await apiClient.put<Slide[]>(`/web_stories/slides/${id}`, {
+        updates
+    });
+    return result.data.map((item: any) => SlideSchema.parse(item));
 }

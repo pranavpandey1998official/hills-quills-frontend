@@ -10,9 +10,10 @@ import WebStoryList from '../features/web-story/component/web-story-list';
 import ArticleSecondaryGrid from '../features/article/component/article-secondary-grid';
 import { Footer } from '@/components/molecules/footer';
 import { useMemo } from "react";
-import { useLatestNews, useTopNews, useWebStories, useRegionArticles, useTrendingTags } from "@/features/article/hooks";
+import { useLatestNews, useTopNews, useRegionArticles, useTrendingTags } from "@/features/article/hooks";
+import { useWebStories } from "@/features/web-story/hooks";
 
-export const useHomePage = () => {
+const useHomePage = () => {
 
     const {data: latestNews, isLoading: latestNewsLoading} = useLatestNews();
     const {data: topNews, isLoading: topNewsLoading} = useTopNews();

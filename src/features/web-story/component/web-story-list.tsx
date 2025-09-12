@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { ShimmerThumbnail, ShimmerTitle } from 'react-shimmer-effects';
 import Image from 'next/image';
 import { Story } from '@/features/web-story/types';
 import Link from 'next/link';
@@ -8,12 +9,35 @@ export interface WebStoryListProps {
   onStoryClick: (story: Story) => void;
 }
 
-const WebStoryList = ({
-  stories,
-  onStoryClick,
-}: WebStoryListProps): React.ReactNode => {
+const WebStoryListSkeleton = () => {
+  return (
+    <div className="group relative h-96 w-48 flex-shrink-0 overflow-hidden rounded-2xl">
+      <ShimmerThumbnail height={384} width={192} />
+      <div className="absolute right-0 bottom-0 left-0 p-4 pb-5">
+        <ShimmerTitle line={2} variant="secondary" />
+      </div>
+    </div>
+  );
+};
+
+const WebStoryList = ({ stories }: WebStoryListProps): React.ReactNode => {
   if (!stories) {
-    return null;
+    return (
+      <div className="scrollbar-hide w-full overflow-x-auto pb-4">
+        <div className="flex min-w-max space-x-4">
+          {Array.from({ length: 10 }).map((_, index) => (
+            <WebStoryListSkeleton key={index} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+  if (stories.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <p className="text-gray-500">No stories found</p>
+      </div>
+     );
   }
   return (
     <div className="scrollbar-hide w-full overflow-x-auto pb-4">
@@ -23,7 +47,6 @@ const WebStoryList = ({
             <div
               key={story.id}
               className="group relative h-96 w-48 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl"
-              onClick={() => onStoryClick(story)}
             >
               <Image
                 src={story.cover_image_url.previewUrl}

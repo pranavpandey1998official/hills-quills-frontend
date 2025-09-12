@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Footer } from "./footer";
 
 const meta: Meta<typeof Footer> = {
-  title: "components/Footer",
+  title: "molecules/Footer",
   component: Footer,
   parameters: {
     layout: "fullscreen",
@@ -53,7 +53,7 @@ export const WithLongContent: Story = {
       <div className="min-h-screen flex flex-col">
         <div className="flex-1 bg-white p-8">
           <div className="max-w-4xl mx-auto space-y-8">
-            <article>
+            <div>
               <h1 className="text-4xl font-bold text-gray-900 mb-6">
                 Sacred Valley of Flowers Blooms Again: Uttarakhand's Hidden Paradise Welcomes Visitors
               </h1>
@@ -68,7 +68,7 @@ export const WithLongContent: Story = {
                 
                 <p>This conservation success story serves as a model for other protected areas across the Himalayan region, demonstrating how community involvement and scientific management can preserve natural heritage for future generations.</p>
               </div>
-            </article>
+            </div>
             
             <div className="border-t border-gray-200 pt-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Related Articles</h2>
@@ -168,7 +168,7 @@ export const ContrastCheck: Story = {
               <h2 className="text-2xl font-bold mb-3">Dark Content Section</h2>
               <p>This dark section helps test the visual contrast and separation between main content and the footer component.</p>
             </div>
-            <div className="bg-orange-500 text-white p-6 rounded-lg">
+            <div className="bg-primary text-white p-6 rounded-lg">
               <h2 className="text-2xl font-bold mb-3">Brand Color Section</h2>
               <p>Testing with HillsQuills brand orange color to ensure proper visual hierarchy.</p>
             </div>

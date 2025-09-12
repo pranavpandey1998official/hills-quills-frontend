@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { fetchTrendingTags } from "@/services/tags"
+import { fetchTrendingTags } from "@/features/article/services"
 
 export function useTrendingTags() {
     const { data: trendingTags, isLoading, error } = useQuery({

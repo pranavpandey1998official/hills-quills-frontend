@@ -13,7 +13,7 @@ import { Article } from "@/features/article/types";
 import ArticleList from "@/features/article/component/article-list";
 
 const TagPage = () => {
-    var { tag } = useParams()
+    const { tag } = useParams()
 
     const { data: tagArticles } = useArticlesByTag(tag as string)
     const { data: latestNews } = useLatestNews()

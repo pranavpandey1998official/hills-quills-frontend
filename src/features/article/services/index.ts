@@ -95,6 +95,7 @@ export async function fetchLatestArticles(cursor: number, limit: number): Promis
 }
 
 export async function fetchTopArticles(cursor: number, limit: number): Promise<Article[]> {
+    console.log('fetching top articles');
     const result = await apiClient.get<Article[]>(`/articles/approved/top?cursor=${cursor}&limit=${limit}`);
     return result.data.map((item: any) => ArticleSchema.parse(item));
 }
@@ -119,7 +120,17 @@ export async function fetchTrendingTags(): Promise<string[]> {
     return result.data;
 }
 
+export async function fetchGarhwalArticles(cursor: number, limit: number): Promise<Article[]> {
+    const result = await apiClient.get<Article[]>(`/articles/approved/garhwal?cursor=${cursor}&limit=${limit}`);
+    return result.data.map((item: any) => ArticleSchema.parse(item));
+}
+
 export async function fetchArticlesByTag(tag: string, cursor: number, limit: number): Promise<Article[]> {
     const result = await apiClient.get<Article[]>(`/articles/approved/tag/${tag}?cursor=${cursor}&limit=${limit}`);
+    return result.data.map((item: any) => ArticleSchema.parse(item));
+}
+
+export async function fetchKumaonArticles(cursor: number, limit: number): Promise<Article[]> {
+    const result = await apiClient.get<Article[]>(`/articles/approved/kumaon?cursor=${cursor}&limit=${limit}`);
     return result.data.map((item: any) => ArticleSchema.parse(item));
 }

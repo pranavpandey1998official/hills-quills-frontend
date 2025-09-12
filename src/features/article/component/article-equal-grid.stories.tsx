@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import ArticleEqualGrid from "./article-equal-grid";
 import { Article } from "@/features/article/types";
 import { Category, Region, Status } from "@/types/common";

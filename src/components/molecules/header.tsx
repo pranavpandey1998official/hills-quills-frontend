@@ -6,12 +6,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Region } from "@/types/common"
 
@@ -23,8 +20,8 @@ export function Header() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="text-2xl font-bold">
-              <span className="text-teal-600">Hills</span>
-              <span className="text-orange-500">Quills</span>
+              <span className="text-primary">Hills</span>
+              <span className="text-secondary">Quills</span>
             </Link>
             <span className="ml-2 text-sm text-gray-500">Mountain Chronicles</span>
           </div>
@@ -32,16 +29,24 @@ export function Header() {
           <nav className="hidden md:flex items-center space-x-8">
             <Link href="/" className="text-gray-700 font-medium relative group">
               Home
-              <span className="absolute left-1/2 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+              <span className="absolute left-1/2 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
-            <Link href="/articles/top-news" className="text-gray-700 font-medium relative group">
+            <Link href="/top-news" className="text-gray-700 font-medium relative group">
               Top News
-              <span className="absolute left-1/2 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+              <span className="absolute left-1/2 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
-            <Link href="/web-stories" className="text-gray-700 font-medium relative group">
-              Vibes
-              <span className="absolute left-1/2 bottom-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            <Link href="/kumaon" className="text-gray-700 font-medium relative group">
+              Kumaon
+              <span className="absolute left-1/2 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
+            <Link href="/garhwal" className="text-gray-700 font-medium relative group">
+              Garhwal
+              <span className="absolute left-1/2 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </Link>
+            {/* <Link href="/web-stories" className="text-gray-700 font-medium relative group">
+              Web Stories
+              <span className="absolute left-1/2 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </Link> */}
           </nav>
 
           <div className="flex items-center space-x-4">

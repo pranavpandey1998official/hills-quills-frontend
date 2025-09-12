@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { TrendingTagsView } from "./trending-tags-view";
     
 const meta: Meta<typeof TrendingTagsView> = {
-  title: "components/TrendingTagsView",
+  title: "molecules/TrendingTagsView",
   component: TrendingTagsView,
   parameters: {
     layout: "fullscreen",

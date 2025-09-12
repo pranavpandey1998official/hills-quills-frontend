@@ -2,14 +2,14 @@ import { useDeepCompareMemo } from 'use-deep-compare'
 import { useState } from 'react'
 import { Article } from '@/features/article/types'
 
-export const useArticleFilterHook = (articles: Article[]) => {
+export const useArticleFilterHook = (articles?: Article[]) => {
 
     const [searchTerm, setSearchTerm] = useState("")
     const [statusFilter, setStatusFilter] = useState<string>("all")
     const [categoryFilter, setCategoryFilter] = useState<string>("all")
     const [regionFilter, setRegionFilter] = useState<string>("all")
     const filteredArticles = useDeepCompareMemo(() => {
-        let filtered = articles
+        let filtered = articles ?? []
     
         // Apply search filter
         if (searchTerm) {

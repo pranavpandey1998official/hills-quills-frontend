@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import MainGrid from "../../../app/articles/components/article-main-grid";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import MainGrid from "./article-main-grid";
 import { Article } from "@/features/article/types";
 import { Category, Region, Status } from "@/types/common";
 

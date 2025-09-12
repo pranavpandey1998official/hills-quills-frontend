@@ -2,7 +2,7 @@
 import { useParams, useRouter } from "next/navigation"
 import { Header } from "@/components/molecules/header"
 import { Footer } from "@/components/molecules/footer"
-import { useArticleById } from "../../hooks/article"
+import { useArticleById } from "@/features/article/hooks"
 import ArticleDetailContent from "@/features/article/component/article-detail/content"
 import { AuthorCard } from "@/features/article/component/article-detail/author"
 import ArticleDetailHeader from "@/features/article/component/article-detail/header"
@@ -22,7 +22,7 @@ export default function ArticleDetailPage() {
       <div className="min-h-screen bg-gray-50">
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
             <p className="text-gray-600">Loading article...</p>
           </div>
         </div>

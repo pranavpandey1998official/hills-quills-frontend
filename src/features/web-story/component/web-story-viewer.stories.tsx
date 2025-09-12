@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { WebStoryViewer } from "./web-story-viewer";
 import { StoryView } from "@/features/web-story/types";
 import { Category, Region } from "@/types/common";
 
 const meta: Meta<typeof WebStoryViewer> = {
-  title: "components/WebStoryViewer",
+  title: "web-story/WebStoryViewer",
   component: WebStoryViewer,
   parameters: {
     layout: "fullscreen",

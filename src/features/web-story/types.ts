@@ -56,3 +56,18 @@ export const StoryViewSchema = z.object({
 });
 
 export type StoryView = z.infer<typeof StoryViewSchema>;
+
+export type StoryUpdates = {
+  title?: string;
+  category?: string;
+  region?: string;
+  imageFile?: ImageFile;
+  tags?: string[];
+}
+
+export type SlideUpdates = {
+  slide_order?: number;
+  image_url?: string;
+  caption?: string;
+  duration?: number;
+}

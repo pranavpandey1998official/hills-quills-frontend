@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { ArticleCard } from "./article-card";
 import { Article } from "@/features/article/types";
 import { Category, ImageFile, Region, Status } from "@/types/common";
 
 const meta: Meta<typeof ArticleCard> = {
-  title: "molecules/ArticleCard/Default",
+  title: "articles/ArticleCard/Default",
   component: ArticleCard,
   parameters: {
     layout: "centered",

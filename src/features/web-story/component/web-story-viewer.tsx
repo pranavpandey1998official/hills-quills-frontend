@@ -134,7 +134,7 @@ export function WebStoryViewer({
               <div className="bg-white rounded-lg px-3 py-1">
                 <div className="text-xs font-bold">
                   <span className="text-teal-600">Hills</span>
-                  <span className="text-orange-500">Quills</span>
+                  <span className="text-primary">Quills</span>
                 </div>
                 <div className="text-xs text-gray-600">Stories</div>
               </div>

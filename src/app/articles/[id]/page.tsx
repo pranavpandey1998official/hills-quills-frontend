@@ -6,16 +6,18 @@ import { useApprovedArticleById } from "@/features/article/hooks"
 import ArticleDetailContent from "@/features/article/component/article-detail/content"
 import { AuthorCard } from "@/features/article/component/article-detail/author"
 import ArticleDetailHeader from "@/features/article/component/article-detail/header"
-import { Label, Separator } from "@radix-ui/react-select"
-import { Badge } from "@/components/ui/badge"
+import { Separator } from "@radix-ui/react-select"
 import { ArrowLeft } from "lucide-react"
-import { useLatestNews, useWebStories } from "@/features/article/hooks"
+import { useLatestNews } from "@/features/article/hooks"
+import { useWebStories } from "@/features/web-story/hooks"
 import { Article } from "@/features/article/types"
 import SectionHeader from "@/components/molecules/section-header"
 import ArticleEqualGrid from "../../../features/article/component/article-equal-grid"
 import SectionBreak from "@/components/molecules/section-break"
 import WebStoryList from "../../../features/web-story/component/web-story-list"
 import TagBadge from "@/components/molecules/tag-badge"
+import Loading from "@/components/molecules/loading"
+import Head from 'next/head'
 
 export default function ArticleDetailPage() {
   const params = useParams()
@@ -33,20 +35,32 @@ export default function ArticleDetailPage() {
 
   if (loading || !article) {
     return (
-      <div className="min-h-screen max-w-7xl w-full md:px-8 2xl:px-0 px-4 mx-auto bg-white">
-        <div className="flex items-center justify-center h-96">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading article...</p>
-          </div>
-        </div>
-      </div>
+      <Loading />
     )
   }
 
   
     return (
       <>
+      <Head>
+        <title>{article!.title}</title>
+        <meta name="description" content={article!.content.substring(0, 150)} />
+        <meta name="author" content={article!.author_name} />
+        <meta name="keywords" content={article!.tags.join(', ')} />
+        <meta property="og:title" content={article!.title} />
+        <meta property="og:description" content={article!.content.substring(0, 150)} />
+        <meta property="og:image" content={article!.image.previewUrl} />
+        <meta property="og:url" content={`${process.env.NEXT_PUBLIC_SITE_URL}/articles/${article!.id}`} />
+        <meta property="og:type" content="article" />
+
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@HillsQuills" />
+        <meta name="twitter:creator" content="@HillsQuills" />
+        <meta name="twitter:title" content={article!.title} />
+        <meta name="twitter:description" content={article!.content.substring(0, 150)} />
+        <meta name="twitter:image" content={article!.image.previewUrl} />
+      </Head>
       <div className="min-h-screen max-w-7xl w-full md:px-8 2xl:px-0 px-4 mx-auto bg-white">
         <Header />
         <button

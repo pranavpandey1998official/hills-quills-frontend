@@ -54,14 +54,14 @@ export function TagsInput({ id, value, onChange, placeholder = 'Type a tag and p
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
           />
-          <Button type="button" variant="secondary" onClick={() => addTag(draft)}>
+          <Button type="button" onClick={() => addTag(draft)}>
             Add
           </Button>
         </div>
         {value.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {value.map((tag) => (
-              <Badge key={tag} variant="secondary" className="flex items-center gap-1">
+              <Badge key={tag} variant="outline" className="flex items-center gap-1">
                 <span>#{tag}</span>
                 <button
                   type="button"

@@ -64,7 +64,7 @@ export function ArticleCard({
       </div>
 
       <div className="space-y-1">
-        <h3 className="font-medium text-lg leading-tight group-hover:text-orange-600 transition-colors line-clamp-2">
+        <h3 className="font-medium text-lg leading-tight group-hover:text-primary transition-colors line-clamp-2">
           {article.title}
         </h3>
         <div className="text-xs flex flex-row items-center">

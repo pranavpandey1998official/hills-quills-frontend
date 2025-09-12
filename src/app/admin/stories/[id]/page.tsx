@@ -1,6 +1,6 @@
 "use client"
 import { useParams } from "next/navigation"
-import { useStoryById } from "../../hooks/story"
+import { useStoryById } from "@/features/web-story/hooks"
 import { WebStoryViewer } from "@/features/web-story/component/web-story-viewer"
 
 

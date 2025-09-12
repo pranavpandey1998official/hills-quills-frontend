@@ -5,16 +5,16 @@ import { Footer } from "@/components/molecules/footer"
 import { Intro } from "@/components/molecules/intro"
 import WebStoryList from "../../features/web-story/component/web-story-list"
 import ArticleSecondaryGrid from "../../features/article/component/article-secondary-grid"
-import { useRegionArticles, useTopNews } from "@/features/article/hooks"
-import { useWebStories } from "@/features/web-story/hooks"
+import { useGarhwalArticles, } from "@/features/article/hooks"
 import SectionHeader from "@/components/molecules/section-header"
+import { useGarhwalWebStories } from "@/features/web-story/hooks"
+
 import SectionBreak from "@/components/molecules/section-break"
 import MoreArticles from "@/features/article/component/more-articles"
 
 export default function TopNewsPage() {
-  const { data: topNews } = useTopNews()
-  const { data: webStories } = useWebStories()
-  const { data: regionArticles } = useRegionArticles()
+  const { data: garhwalNews } = useGarhwalArticles()
+  const { data: webStories } = useGarhwalWebStories()
 
   return (
     <>
@@ -24,22 +24,18 @@ export default function TopNewsPage() {
         {/* Top News Intro */}
         
         <Intro
-          title="Top News"
-          description="Stay updated with the top news from every district of Uttarakhand. From local updates to state-wide headlines, find everything important in one place. Catch fresh stories as they happen and never miss a moment."
+          title="Garhwal News"
+          description="Stay updated with every news from Garhwal region Uttarakhand. From local updates to state-wide headlines, find everything important in one place. Catch fresh stories as they happen and never miss a moment."
           backgroundImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80"
         />
         <SectionBreak />
 
         {/* Featured Articles Grid */}
-        <ArticleSecondaryGrid articles={topNews} />
+        <ArticleSecondaryGrid articles={garhwalNews} />
         <SectionBreak />
 
         <SectionHeader title="Web Stories" />
         <WebStoryList stories={webStories} onStoryClick={() => {}} />
-        <SectionBreak />
-
-        <SectionHeader title="From Districts" />
-        <ArticleSecondaryGrid articles={regionArticles} />
         <SectionBreak />
 
         <SectionHeader title="More Stories" />

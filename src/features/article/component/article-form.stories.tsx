@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import ArticleForm, { ArticleFormProps, ArticleFormState } from "./article-form";
-import { Category, Region } from "@/types/common";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import ArticleForm, { ArticleFormState } from "./article-form";
+import { Category, Region, ImageFile, PREVIEW_ARTICLE_IMAGE } from "@/types/common";
 
 const meta: Meta<typeof ArticleForm> = {
-  title: "forms/ArticleForm",
+  title: "articles/ArticleForm",
   component: ArticleForm,
   parameters: {
     layout: "padded",
@@ -31,7 +31,7 @@ const meta: Meta<typeof ArticleForm> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof ArticleForm>;
 
 // Mock onChange function
 const mockOnChange = (field: string, value: any) => {
@@ -41,7 +41,7 @@ const mockOnChange = (field: string, value: any) => {
 // Initial empty form state
 const emptyFormData: ArticleFormState = {
   title: "",
-  imageFile: undefined,
+  imageFile: PREVIEW_ARTICLE_IMAGE,
   tags: [],
   region: undefined,
   category: undefined,
@@ -51,7 +51,7 @@ const emptyFormData: ArticleFormState = {
 // Partially filled form data
 const partialFormData: ArticleFormState = {
   title: "Eco-Tourism Initiative in Uttarakhand",
-  imageFile: undefined,
+  imageFile: PREVIEW_ARTICLE_IMAGE,
   tags: ["environment", "tourism"],
   region: Region.Nainital,
   category: undefined,
@@ -61,7 +61,7 @@ const partialFormData: ArticleFormState = {
 // Fully filled form data
 const completeFormData: ArticleFormState = {
   title: "Uttarakhand Government Launches New Eco-Tourism Initiative in Protected Forest Areas",
-  imageFile: undefined,
+  imageFile: PREVIEW_ARTICLE_IMAGE,
   tags: ["eco-tourism", "forest-conservation", "sustainable-development", "uttarakhand", "environment"],
   region: Region.Nainital,
   category: Category.Environment,
@@ -96,7 +96,7 @@ The program includes the development of nature trails, wildlife observation poin
 // Culture article data
 const cultureFormData: ArticleFormState = {
   title: "Ancient Temples of Kedarnath: A Spiritual Journey Through Sacred Architecture",
-  imageFile: undefined,
+  imageFile: PREVIEW_ARTICLE_IMAGE,
   tags: ["temples", "culture", "kedarnath", "spirituality", "architecture", "heritage"],
   region: Region.Rudraprayag,
   category: Category.Culture,
@@ -184,7 +184,7 @@ export const TourismArticle: Story = {
   args: {
     data: {
       title: "Hidden Gems of Kumaon: Offbeat Destinations for Adventure Seekers",
-      imageFile: undefined,
+      imageFile: PREVIEW_ARTICLE_IMAGE,
       tags: ["tourism", "adventure", "kumaon", "hidden-gems", "trekking", "hill-stations"],
       region: Region.Almora,
       category: Category.Tourism,
@@ -244,7 +244,7 @@ export const ShortNewsArticle: Story = {
   args: {
     data: {
       title: "New Highway Project Approved for Pithoragarh District",
-      imageFile: undefined,
+      imageFile: PREVIEW_ARTICLE_IMAGE,
       tags: ["infrastructure", "highway", "development", "pithoragarh"],
       region: Region.Pithoragarh,
       category: Category.Politics,
@@ -272,7 +272,7 @@ export const HealthArticle: Story = {
   args: {
     data: {
       title: "Traditional Medicinal Plants of Uttarakhand: Ancient Wisdom for Modern Health",
-      imageFile: undefined,
+      imageFile: PREVIEW_ARTICLE_IMAGE,
       tags: ["health", "traditional-medicine", "ayurveda", "herbs", "healthcare"],
       region: Region.Chamoli,
       category: Category.Health,
@@ -314,7 +314,7 @@ export const ManyTags: Story = {
   args: {
     data: {
       title: "Comprehensive Guide to Uttarakhand's Biodiversity and Conservation Efforts",
-      imageFile: undefined,
+      imageFile: PREVIEW_ARTICLE_IMAGE,
       tags: [
         "biodiversity",
         "conservation",

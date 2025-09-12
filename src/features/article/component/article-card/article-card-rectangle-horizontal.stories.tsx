@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import ArticleCardRectangleHorizontal from "./article-card-reactangle-horizontal";
 import { Article } from "@/features/article/types";
 import { Category, Region, Status } from "@/types/common";
 
 const meta: Meta<typeof ArticleCardRectangleHorizontal> = {
-  title: "molecules/ArticleCard/RectangleHorizontal",
+  title: "articles/ArticleCard/RectangleHorizontal",
   component: ArticleCardRectangleHorizontal,
   parameters: {
     layout: "centered",

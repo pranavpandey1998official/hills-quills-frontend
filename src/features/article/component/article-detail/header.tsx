@@ -15,7 +15,7 @@ const ArticleDetailHeader = ({article}: {article: ArticleViewWithAuthor}) => {
     toast.success('Link copied to clipboard');
   }
   return (
-    <article className="bg-white overflow-hidden">
+    <div className="bg-white overflow-hidden">
       <div className="flex gap-2 py-6 pb-4">
         <CategoryBadge category={article.category} />
         <RegionBadge region={article.region} />
@@ -66,7 +66,7 @@ const ArticleDetailHeader = ({article}: {article: ArticleViewWithAuthor}) => {
       </div>
 
       {/* Tags at bottom */}
-    </article>
+    </div>
   );
 };
 

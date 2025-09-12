@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import ArticleDetailContent from "./content";
 
 const meta: Meta<typeof ArticleDetailContent> = {
-  title: "molecules/ArticleDetail/Content",
+  title: "articles/ArticleDetail/Content",
   component: ArticleDetailContent,
   parameters: {
     layout: "padded",

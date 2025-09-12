@@ -20,7 +20,6 @@ const eslintConfig = [...compat.extends("next/core-web-vitals", "next/typescript
     "@typescript-eslint/no-explicit-any": "off",
     // Temporarily ignore unused variables/interfaces
     "@typescript-eslint/no-unused-vars": "off",
-    "sort-keys": ["error", "asc", { "caseSensitive": true, "natural": true }]
   }
 }, ...storybook.configs["flat/recommended"]];
 

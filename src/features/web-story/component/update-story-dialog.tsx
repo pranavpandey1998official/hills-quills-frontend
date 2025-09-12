@@ -15,23 +15,25 @@ import { Story } from "@/features/web-story/types"
 import { Save, X } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import StoryForm from "./story-form"
-import { useUpdateStoryForm } from "../../hooks/useUpdateStoryForm"
+import { useUpdateStoryForm } from "@/features/web-story/hooks/useUpdateStoryForm"
 
 interface UpdateStoryDialogProps {
   open: boolean
   story?: Story
-  onUpdate: () => void
   onCancel: () => void
 }
 
 export function UpdateStoryDialog({
   open,
   story,
-  onUpdate,
   onCancel,
 }: UpdateStoryDialogProps) {
   const { formData, handleChange, isLoading, isUpdating, handleUpdate, handleReset, hasChanges } = useUpdateStoryForm(story!)
 
+  const updateStoryAndDone = async () => {
+    await handleUpdate()
+    onCancel()
+  }
   
 
   return (
@@ -74,10 +76,18 @@ export function UpdateStoryDialog({
             <X className="h-4 w-4" />
             Close
           </Button>
+          <Button 
+            variant="destructive" 
+            onClick={handleReset}
+            disabled={isUpdating}
+            className="flex items-center gap-2"
+          >
+            <X className="h-4 w-4" />
+            Reset
+          </Button>
 
           <Button
-            onClick={handleUpdate}
-            disabled={true}
+            onClick={updateStoryAndDone}
             className="flex items-center gap-2"
           >
             {isUpdating ? (
@@ -88,7 +98,7 @@ export function UpdateStoryDialog({
             ) : (
               <>
                 <Save className="h-4 w-4" />
-                Update COMING SOON
+                Update
               </>
             )}
           </Button>

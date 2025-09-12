@@ -26,7 +26,7 @@ const MoreArticles = () => {
         observer.observe(loaderRef.current);
 
         return () => {
-        if (loaderRef.current) observer.unobserve(loaderRef.current);
+            if (loaderRef.current) observer.unobserve(loaderRef.current);
         };
     }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
@@ -41,7 +41,7 @@ const MoreArticles = () => {
             <ArticleCard key={article.id} article={article} />
             ))}
         </div>
-        {isFetchingNextPage && <Loader2 className="h-10 w-10 animate-spin text-orange-500 mx-auto"></Loader2>}
+        {isFetchingNextPage && <Loader2 className="h-10 w-10 animate-spin text-primary mx-auto"></Loader2>}
         <div ref={loaderRef}></div>
         </>
     );

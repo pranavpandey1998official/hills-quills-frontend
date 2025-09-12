@@ -13,16 +13,16 @@ const ArticleMainGrid = ({articles}: {articles: Article[]}) => {
         return secondaryArticles.map((article, index) => {
             if (index !== secondaryArticles.length - 1) {
                 return (
-                    <>
+                    <div key={article.id}>
                         <div className="divider-item">
                             <ArticleCardVertical key={article.id} article={article} />
                         </div>
                         <Separator className="mb-4 mt-2" />
-                    </>
+                    </div>
                 )
             }
             return (
-                <div className="divider-item">
+                <div key={article.id} className="divider-item">
                     <ArticleCardVertical key={article.id} article={article} />
                 </div>
             )
@@ -33,10 +33,10 @@ const ArticleMainGrid = ({articles}: {articles: Article[]}) => {
         return moreArticles.map((article, index) => {
             if (index !== moreArticles.length - 1) {
                 return (
-                    <>
+                    <div key={article.id}>
                         <ArticleCardSquareHorizontal key={article.id} article={article} />
                         <Separator className="my-4" />
-                    </>
+                    </div>
                 )
             }
             return (

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { AuthorCard } from "./author";
 
 const meta: Meta<typeof AuthorCard> = {
-  title: "molecules/ArticleDetail/AuthorCard",
+  title: "articles/ArticleDetail/AuthorCard",
   component: AuthorCard,
   parameters: {
     layout: "centered",

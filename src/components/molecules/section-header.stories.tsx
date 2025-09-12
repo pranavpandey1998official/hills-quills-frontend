@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import SectionHeader from "./section-header";
 
 const meta: Meta<typeof SectionHeader> = {

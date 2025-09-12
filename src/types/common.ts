@@ -18,11 +18,11 @@ export type ImageFile = {
   file?: File;
 }
 
-export let PREVIEW_ARTICLE_IMAGE: ImageFile = {
+export const PREVIEW_ARTICLE_IMAGE: ImageFile = {
   previewUrl: '/images/placeholder.png',
 }
 
-export let PREVIEW_STORY_IMAGE: ImageFile = {
+export const PREVIEW_STORY_IMAGE: ImageFile = {
   previewUrl: '/images/story_placeholder.png',
 }
 

@@ -1,16 +1,16 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import WebStoryList from "../../../app/articles/components/web-story-list";
-import { StoryView } from "@/features/web-story/types";
-import { Category, Region } from "@/types/common";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import WebStoryList from "@/features/web-story/component/web-story-list";
+import { Story as WebStoryType } from "@/features/web-story/types";
+import { Category, Region, Status, ImageFile } from "@/types/common";
 
 // Define proper props interface for the component
 interface WebStoryListProps {
-  stories: StoryView[];
-  onStoryClick?: (story: StoryView) => void;
+  stories: WebStoryType[];
+  onStoryClick?: (story: WebStoryType) => void;
 }
 
 const meta: Meta<WebStoryListProps> = {
-  title: "components/WebStoryList",
+  title: "web-story/WebStoryList",
   component: WebStoryList as any, // Type assertion due to component signature issue
   parameters: {
     layout: "centered",
@@ -28,7 +28,7 @@ const meta: Meta<WebStoryListProps> = {
     },
     onStoryClick: {
       description: "Callback function triggered when a story card is clicked",
-      control: { type: "function" },
+      control: { type: "object" },
     },
   },
   decorators: [
@@ -42,139 +42,139 @@ export default meta;
 type Story = StoryObj<WebStoryListProps>;
 
 // Mock console function for onStoryClick callback
-const mockOnStoryClick = (story: StoryView) => {
+const mockOnStoryClick = (story: WebStoryType) => {
   console.log("Story clicked:", story.title);
 };
 
 // Comprehensive mock story data
-const templeStory: StoryView = {
+const templeStory: WebStoryType = {
   id: 1,
   title: "Sacred Temples of Kedarnath: A Spiritual Journey Through the Himalayas",
   author_id: 1,
-  cover_image_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
+  cover_image_url: { previewUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400" } as ImageFile,
   region: Region.Rudraprayag,
   category: Category.Culture,
+  status: Status.Approved,
   rejection_reason: null,
+  created_at: "2024-01-15T09:00:00Z",
   updated_at: "2024-01-15T10:00:00Z",
-  tags: ["Temples", "Spirituality", "Himalayas", "Pilgrimage"],
-  slides: [],
 };
 
-const wildlifeStory: StoryView = {
+const wildlifeStory: WebStoryType = {
   id: 2,
   title: "Wildlife Wonders: Jim Corbett National Park",
   author_id: 2,
-  cover_image_url: "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=400",
+  cover_image_url: { previewUrl: "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=400" } as ImageFile,
   region: Region.Nainital,
   category: Category.Environment,
+  status: Status.Approved,
   rejection_reason: null,
+  created_at: "2024-01-14T14:30:00Z",
   updated_at: "2024-01-14T15:30:00Z",
-  tags: ["Wildlife", "Tigers", "Conservation"],
-  slides: [],
 };
 
-const cultureStory: StoryView = {
+const cultureStory: WebStoryType = {
   id: 3,
   title: "Traditional Kumaoni Crafts",
   author_id: 3,
-  cover_image_url: "https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?w=400",
+  cover_image_url: { previewUrl: "https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?w=400" } as ImageFile,
   region: Region.Almora,
   category: Category.Culture,
+  status: Status.Approved,
   rejection_reason: null,
+  created_at: "2024-01-13T11:00:00Z",
   updated_at: "2024-01-13T12:00:00Z",
-  tags: ["Handicrafts", "Tradition", "Artisans"],
-  slides: [],
 };
 
-const adventureStory: StoryView = {
+const adventureStory: WebStoryType = {
   id: 4,
   title: "Mountain Trekking Adventures in Garhwal",
   author_id: 4,
-  cover_image_url: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=400",
+  cover_image_url: { previewUrl: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=400" } as ImageFile,
   region: Region.Uttarkashi,
   category: Category.Tourism,
+  status: Status.Approved,
   rejection_reason: null,
+  created_at: "2024-01-12T17:45:00Z",
   updated_at: "2024-01-12T18:45:00Z",
-  tags: ["Trekking", "Adventure", "Mountains"],
-  slides: [],
 };
 
-const foodStory: StoryView = {
+const foodStory: WebStoryType = {
   id: 5,
   title: "Flavors of the Hills: Kumaoni Cuisine",
   author_id: 5,
-  cover_image_url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400",
+  cover_image_url: { previewUrl: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400" } as ImageFile,
   region: Region.Nainital,
   category: Category.Culture,
+  status: Status.Approved,
   rejection_reason: null,
+  created_at: "2024-01-11T08:15:00Z",
   updated_at: "2024-01-11T09:15:00Z",
-  tags: ["Food", "Cuisine", "Traditional"],
-  slides: [],
 };
 
-const shortTitleStory: StoryView = {
+const shortTitleStory: WebStoryType = {
   id: 6,
   title: "Hill Festival",
   author_id: 6,
-  cover_image_url: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400",
+  cover_image_url: { previewUrl: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400" } as ImageFile,
   region: Region.Chamoli,
   category: Category.Culture,
+  status: Status.Approved,
   rejection_reason: null,
+  created_at: "2024-01-10T13:20:00Z",
   updated_at: "2024-01-10T14:20:00Z",
-  tags: ["Festival", "Culture"],
-  slides: [],
 };
 
-const longTitleStory: StoryView = {
+const longTitleStory: WebStoryType = {
   id: 7,
   title: "The Complete Guide to Uttarakhand's Most Beautiful and Sacred Temple Sites: A Comprehensive Journey Through Ancient Architecture and Spiritual Heritage",
   author_id: 7,
-  cover_image_url: "https://images.unsplash.com/photo-1551969014-7d2c4cddf0b6?w=400",
+  cover_image_url: { previewUrl: "https://images.unsplash.com/photo-1551969014-7d2c4cddf0b6?w=400" } as ImageFile,
   region: Region.Haridwar,
   category: Category.Culture,
+  status: Status.Approved,
   rejection_reason: null,
+  created_at: "2024-01-09T10:30:00Z",
   updated_at: "2024-01-09T11:30:00Z",
-  tags: ["Temples", "Architecture", "Heritage"],
-  slides: [],
 };
 
-const economyStory: StoryView = {
+const economyStory: WebStoryType = {
   id: 8,
   title: "Economic Development in Hill Districts",
   author_id: 8,
-  cover_image_url: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=400",
+  cover_image_url: { previewUrl: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=400" } as ImageFile,
   region: Region.Dehradun,
   category: Category.Economy,
+  status: Status.Approved,
   rejection_reason: null,
+  created_at: "2024-01-08T15:45:00Z",
   updated_at: "2024-01-08T16:45:00Z",
-  tags: ["Economy", "Development", "Business"],
-  slides: [],
 };
 
-const healthStory: StoryView = {
+const healthStory: WebStoryType = {
   id: 9,
   title: "Healthcare Initiatives in Remote Areas",
   author_id: 9,
-  cover_image_url: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400",
+  cover_image_url: { previewUrl: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400" } as ImageFile,
   region: Region.Pithoragarh,
   category: Category.Health,
+  status: Status.Approved,
   rejection_reason: null,
+  created_at: "2024-01-07T09:15:00Z",
   updated_at: "2024-01-07T10:15:00Z",
-  tags: ["Healthcare", "Medical", "Rural"],
-  slides: [],
 };
 
-const educationStory: StoryView = {
+const educationStory: WebStoryType = {
   id: 10,
   title: "Education Revolution in Mountain Schools",
   author_id: 10,
-  cover_image_url: "https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=400",
+  cover_image_url: { previewUrl: "https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=400" } as ImageFile,
   region: Region.Bageshwar,
   category: Category.Education,
+  status: Status.Approved,
   rejection_reason: null,
+  created_at: "2024-01-06T12:25:00Z",
   updated_at: "2024-01-06T13:25:00Z",
-  tags: ["Education", "Schools", "Learning"],
-  slides: [],
 };
 
 // Basic Stories
@@ -523,7 +523,7 @@ export const ScrollingDemo: Story = {
       ...templeStory,
       id: i + 1,
       title: `Story ${i + 1}: ${templeStory.title}`,
-      cover_image_url: `https://images.unsplash.com/photo-${1506905925346 + i}?w=400`,
+      cover_image_url: { previewUrl: `https://images.unsplash.com/photo-${1506905925346 + i}?w=400` } as ImageFile,
     })),
     onStoryClick: mockOnStoryClick,
   },
@@ -610,7 +610,7 @@ export const PerformanceTest: Story = {
       ...templeStory,
       id: i + 1,
       title: `Performance Test Story ${i + 1}`,
-      cover_image_url: `https://images.unsplash.com/photo-${1506905925346 + (i % 10)}?w=400`,
+      cover_image_url: { previewUrl: `https://images.unsplash.com/photo-${1506905925346 + (i % 10)}?w=400` } as ImageFile,
     })),
     onStoryClick: mockOnStoryClick,
   },

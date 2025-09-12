@@ -7,7 +7,7 @@ export default function TagBadge({ tag }: { tag: string }) {
       <Badge
           variant="secondary"
           onClick={() => console.log(tag)}
-          className="bg-gray-200 text-gray-700 hover:bg-orange-100 cursor-pointer px-3 py-1 text-sm font-normal transition-colors"
+          className="bg-gray-200 text-gray-700 hover:bg-primary-light cursor-pointer px-3 py-1 text-sm font-normal transition-colors"
       >
           #{tag}
       </Badge>

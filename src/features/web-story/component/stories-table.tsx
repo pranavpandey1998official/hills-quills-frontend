@@ -11,8 +11,6 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,7 +26,6 @@ import {
   CheckCircle,
   XCircle,
   Clock,
-  FileText,
   AlertCircle,
   Play,
 } from "lucide-react"
@@ -43,7 +40,7 @@ import CategoryBadge from "@/components/molecules/category-badge"
 import RegionBadge from "@/components/molecules/region-badge"
 import { useRouter } from "next/navigation"
 import { Status } from "@/types/common"
-import { useUpdateStoryStatus, useDeleteStory } from "../../hooks/story"
+import { useUpdateStoryStatus, useDeleteStory } from "@/features/web-story/hooks"
 
 interface StoriesTableProps {
   stories: Story[]
@@ -319,7 +316,6 @@ export function StoriesTable({
       <UpdateStoryDialog
         open={updateDialog.open}
         story={updateDialog.story}
-        onUpdate={() => {}}
         onCancel={() => setUpdateDialog({ open: false })}
       />
         

@@ -1,5 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { ImagePicker } from "./image-picker";
+import { ImageFile, PREVIEW_ARTICLE_IMAGE } from "@/types/common";
 
 const meta: Meta<typeof ImagePicker> = {
   title: "molecules/ImagePicker",
@@ -42,27 +43,30 @@ type Story = StoryObj<typeof ImagePicker>;
 
 export const Default: Story = {
   args: {
-    value: null,
+    value: PREVIEW_ARTICLE_IMAGE,
     placeholderSrc: "/images/placeholder.png",
     ariaLabel: "Upload image",
-    onChange: (file: File | null) => console.log("Image selected:", file),
+    onChange: (imageFile: ImageFile | undefined) => console.log("Image selected:", imageFile),
   },
 };
 
 export const WithImage: Story = {
   args: {
-    value: new File([""], "example.jpg", { type: "image/jpeg" }),
+    value: {
+      previewUrl: "/images/licensed-image.jpg",
+      file: new File([""], "example.jpg", { type: "image/jpeg" }),
+    },
     placeholderSrc: "/images/placeholder.png",
     ariaLabel: "Upload image",
-    onChange: (file: File | null) => console.log("Image selected:", file),
+    onChange: (imageFile: ImageFile | undefined) => console.log("Image selected:", imageFile),
   },
 };
 
 export const CustomPlaceholder: Story = {
   args: {
-    value: null,
+    value: PREVIEW_ARTICLE_IMAGE,
     placeholderSrc: "/images/custom-placeholder.jpg",
     ariaLabel: "Upload custom image",
-    onChange: (file: File | null) => console.log("Image selected:", file),
+    onChange: (imageFile: ImageFile | undefined) => console.log("Image selected:", imageFile),
   },
 };

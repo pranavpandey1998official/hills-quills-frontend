@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { StoryFormState, StorySlide } from "@/features/web-story/component/story-form"
+import { SlideForm, StoryFormState } from "@/features/web-story/component/story-form"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { MAX_SLIDES } from "@/types/constant"
@@ -12,7 +12,7 @@ const StoryFormStateInitial = {
     title: '',
     category: undefined,
     region: undefined,
-    slides: [] as StorySlide[],
+    slides: [] as SlideForm[],
     tags: [] as string[],
 } as StoryFormState
 

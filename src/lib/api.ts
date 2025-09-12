@@ -1,7 +1,7 @@
 import imageCompression from 'browser-image-compression';
 import { UploadImageResponse } from '@/types/common';
+import { API_BASE_URL } from '@/types/constant';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
 
 export class RequestError extends Error {
   code: number;

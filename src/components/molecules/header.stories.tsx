@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Header } from "./header";
 
 const meta: Meta<typeof Header> = {
-  title: "components/Header",
+  title: "molecules/Header",
   component: Header,
   parameters: {
     layout: "fullscreen",
@@ -169,7 +169,7 @@ export const BrandingShowcase: Story = {
                 <h4 className="font-semibold text-orange-800 mb-2">Logo Design:</h4>
                 <ul className="text-orange-700 space-y-1">
                   <li>• "Hills" in teal-600 (#0891b2)</li>
-                  <li>• "Quills" in orange-500 (#f97316)</li>
+                  <li>• "Quills" in primary (#f97316)</li>
                   <li>• Bold typography for impact</li>
                   <li>• Linked to homepage</li>
                 </ul>

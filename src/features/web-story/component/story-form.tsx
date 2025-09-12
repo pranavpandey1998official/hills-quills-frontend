@@ -24,6 +24,7 @@ export type SlideForm = {
   image: ImageFile;
   caption: string;
   duration: number;
+  slide_order: number;
 }
 
 
@@ -46,6 +47,7 @@ const defaultSlide: SlideForm = {
   image: PREVIEW_STORY_IMAGE,
   caption: '',
   duration: 5,
+  slide_order: 1,
 };
 
 const StoryForm = ({ formData, handleChange }: StoryFormProps) => {
@@ -55,6 +57,7 @@ const StoryForm = ({ formData, handleChange }: StoryFormProps) => {
     const newSlide: SlideForm = {
       ...defaultSlide,
       id: maxId + 1,
+      slide_order: maxId + 1,
     };
     const newFormData = {
       ...formData,
