@@ -15,7 +15,7 @@ import { Region } from "@/types/common"
 export function Header() {
   
   return (
-    <header className="bg-white my-4 border-y  border-gray-200">
+    <div className="bg-white my-4 border-y  border-gray-200">
       <div>
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -65,6 +65,6 @@ export function Header() {
           </div>
         </div>
       </div>
-    </header>
+    </div>
   )
 }

@@ -60,11 +60,6 @@ export const helveticaNow = localFont({
 // Initialize the Inter font
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
-  title: 'Hills & Quills',
-  description: 'Hills & Quills Frontend Portal',
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{

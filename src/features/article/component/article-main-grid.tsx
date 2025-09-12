@@ -1,10 +1,38 @@
-import ArticleCardSquareHorizontal from "@/features/article/component/article-card/article-card-square-hotizontal";
-import ArticleCardVertical from "@/features/article/component/article-card/article-card-vertical";
+import ArticleCardSquareHorizontal, { LoadingArticleCardSquareHorizontal } from "@/features/article/component/article-card/article-card-square-hotizontal";
+import ArticleCardVertical, { LoadingArticleCardVertical } from "@/features/article/component/article-card/article-card-vertical";
 import { Separator } from "@/components/ui/separator";
 import { Article } from "@/features/article/types";
+import { LoadingArticleCard } from "./article-card/article-card";
 
 
-const ArticleMainGrid = ({articles}: {articles: Article[]}) => {
+const LoadingArticleMainGrid = () => {
+    const secondaryArticles = Array(3).fill(0)
+    const moreArticles = Array(5).fill(0)
+
+    return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid-cols-1 md:col-span-2">
+            <LoadingArticleCardVertical />
+        </div>
+        <div className="col-span-1">
+            {secondaryArticles.map((_, index) => (
+                <LoadingArticleCardVertical key={index} />
+            ))}
+        </div>
+        <div className="col-span-1">
+            {moreArticles.map((_, index) => (
+                <LoadingArticleCardSquareHorizontal key={index} />
+            ))}
+        </div>
+    </div>
+    )
+}
+
+const ArticleMainGrid = ({articles}: {articles?: Article[]}) => {
+
+    if (!articles) {
+        return <LoadingArticleMainGrid />
+    }
 
     const mainArticle = articles[0];
     const secondaryArticles = articles.slice(1, 4);

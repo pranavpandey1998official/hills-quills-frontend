@@ -1,12 +1,42 @@
 import { ArticleCard } from "@/features/article/component/article-card/article-card";
-import ArticleCardRectangleHorizontal from "@/features/article/component/article-card/article-card-reactangle-horizontal";
+import ArticleCardRectangleHorizontal, { LoadingArticleCardRectangleHorizontal } from "@/features/article/component/article-card/article-card-reactangle-horizontal";
 import { Separator } from "@/components/ui/separator";
 import { Article } from "@/features/article/types"
+import { LoadingArticleCard } from "@/features/article/component/article-card/article-card";
 
+
+const LoadingArticleSecondaryGrid = () => {
+    const secondaryArticles = Array(2).fill(0)
+    const moreArticles = Array(4).fill(0)
+    return (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="col-span-1 grid md:grid-cols-2 gap-4">
+                <div className="col-span-2">
+                    <LoadingArticleCard />
+                </div>
+                {secondaryArticles.map((_, index) => (
+                    <div className="col-span-1" key={index}>
+                        <LoadingArticleCard />
+                    </div>
+                ))}
+
+
+            </div>
+            <div className="col-span-1">
+                {moreArticles.map((_, index) => (
+                    <div key={index}>
+                        <LoadingArticleCardRectangleHorizontal />
+                        { index < moreArticles.length - 1 && <Separator />}
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}
 
 const ArticleSecondaryGrid = ({articles}: {articles?: Article[]}) => {
     if (!articles) {
-        return null;
+        return <LoadingArticleSecondaryGrid />;
     }
 
     const mainArticle = articles[0];

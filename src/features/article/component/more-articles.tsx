@@ -1,7 +1,7 @@
 import useMoreArticles from "../hooks/useMoreArtciles";
 import { useRef, useEffect } from "react";
 import { Loader2 } from "lucide-react";
-import { ArticleCard } from "@/features/article/component/article-card/article-card";
+import { ArticleCard, LoadingArticleCard } from "@/features/article/component/article-card/article-card";
 
 
 
@@ -31,7 +31,12 @@ const MoreArticles = () => {
     }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
     if (!articles) {
-        return null;
+
+        return <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {Array(6).fill(0).map((_, index) => (
+            <LoadingArticleCard key={index} />
+            ))}
+        </div>
     }
 
     return (

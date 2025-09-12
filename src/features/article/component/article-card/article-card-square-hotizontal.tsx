@@ -1,7 +1,22 @@
 import { Article } from "@/features/article/types"
 import RegionBadge from "../../../../components/molecules/region-badge"
 import Link from "next/link"
+import { ShimmerButton, ShimmerText, ShimmerTitle } from "react-shimmer-effects"
 
+export const LoadingArticleCardSquareHorizontal = () => {
+  return (
+      <div className="flex flex-row bg-white">
+          <div className="flex-grow h-full justify-center items-center mr-4">
+              <div className="w-full aspect-square h-full animate-pulse bg-gray-100 rounded-lg"></div>
+          </div>
+          <div className="flex-grow @xs:py-2 @sm:py-4 flex-col ">
+              <ShimmerButton size="sm" />
+              <ShimmerTitle line={1} className="mb-3" />
+              <ShimmerText line={1} className="w-1/4" />
+          </div>
+      </div>
+  )
+}
 
 const ArticleCardSquareHorizontal = ({ article }: { article: Article }) => {
     return (

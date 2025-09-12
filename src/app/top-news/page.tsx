@@ -10,6 +10,7 @@ import { useWebStories } from "@/features/web-story/hooks"
 import SectionHeader from "@/components/molecules/section-header"
 import SectionBreak from "@/components/molecules/section-break"
 import MoreArticles from "@/features/article/component/more-articles"
+import ArticleMainGrid from "@/features/article/component/article-main-grid"
 
 export default function TopNewsPage() {
   const { data: topNews } = useTopNews()
@@ -31,7 +32,7 @@ export default function TopNewsPage() {
         <SectionBreak />
 
         {/* Featured Articles Grid */}
-        <ArticleSecondaryGrid articles={topNews} />
+        <ArticleMainGrid articles={topNews} />
         <SectionBreak />
 
         <SectionHeader title="Web Stories" />

@@ -1,11 +1,21 @@
-import ArticleCardRectangleHorizontal from "@/features/article/component/article-card/article-card-reactangle-horizontal";
-import ArticleCardSquareHorizontal from "@/features/article/component/article-card/article-card-square-hotizontal";
+import ArticleCardRectangleHorizontal, { LoadingArticleCardRectangleHorizontal } from "@/features/article/component/article-card/article-card-reactangle-horizontal";
+import ArticleCardSquareHorizontal, { LoadingArticleCardSquareHorizontal } from "@/features/article/component/article-card/article-card-square-hotizontal";
 import { Separator } from "@/components/ui/separator";
 import { Article } from "@/features/article/types";
 
+
 const ArticleList = ({ articles, variant = "rectangle" }: { articles?: Article[], variant?: "square" | "rectangle" }) => {
+    const shimmerItems = Array.from({ length: 3 })
     if (!articles) {
-        return null;
+        
+        return  shimmerItems.map((_, index) => {
+            return (
+                <div key={index}>  
+                    {variant === "square" ? <LoadingArticleCardSquareHorizontal /> : <LoadingArticleCardRectangleHorizontal />}
+                    {index !== shimmerItems.length - 1 && <Separator className="my-4" />}
+                </div>
+            )
+        })
     }
 
     const ArticleCard = variant === "square" ? ArticleCardSquareHorizontal : ArticleCardRectangleHorizontal;

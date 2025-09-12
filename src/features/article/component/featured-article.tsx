@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { ArrowRight, Clock } from "lucide-react"
+import { Clock } from "lucide-react"
 import { formatDistanceToNow } from "date-fns"
 import { Article } from "@/features/article/types"
 import  CategoryBadge  from "@/components/molecules/category-badge"
@@ -20,7 +20,8 @@ export function FeaturedArticle({ article }: FeaturedArticleProps) {
   }
 
   if (!article) {
-    return "loadfing...."
+    return <div className="relative h-[90vh] md:h-[60vh] animate-pulse bg-gray-100 rounded-xl" >
+    </div>
   }
 
 

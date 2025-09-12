@@ -6,6 +6,7 @@ import { Article } from "@/features/article/types"
 import RegionBadge from "../../../../components/molecules/region-badge"
 import CategoryBadge from "../../../../components/molecules/category-badge"
 import Link from "next/link"
+import { ShimmerText, ShimmerTitle } from "react-shimmer-effects"
 
 interface ArticleCardProps {
   article: Article
@@ -18,6 +19,15 @@ interface ArticleCardProps {
   showReadMoreBadge?: boolean
 }
 
+export const LoadingArticleCard = () => {
+  return (
+    <div className="overflow-hidden rounded-lg bg-white">
+        <div className="w-full aspect-video overflow-hidden animate-pulse bg-gray-100 rounded-lg mb-3"></div>
+        <ShimmerTitle line={1} className='mb-2' />
+        <ShimmerText line={1} className='w-1/4' />
+    </div>
+  )
+}
 export function ArticleCard({ 
   article,
   // Default values maintain backward compatibility

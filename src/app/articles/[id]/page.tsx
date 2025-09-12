@@ -17,7 +17,6 @@ import SectionBreak from "@/components/molecules/section-break"
 import WebStoryList from "../../../features/web-story/component/web-story-list"
 import TagBadge from "@/components/molecules/tag-badge"
 import Loading from "@/components/molecules/loading"
-import Head from 'next/head'
 
 export default function ArticleDetailPage() {
   const params = useParams()
@@ -42,25 +41,6 @@ export default function ArticleDetailPage() {
   
     return (
       <>
-      <Head>
-        <title>{article!.title}</title>
-        <meta name="description" content={article!.content.substring(0, 150)} />
-        <meta name="author" content={article!.author_name} />
-        <meta name="keywords" content={article!.tags.join(', ')} />
-        <meta property="og:title" content={article!.title} />
-        <meta property="og:description" content={article!.content.substring(0, 150)} />
-        <meta property="og:image" content={article!.image.previewUrl} />
-        <meta property="og:url" content={`${process.env.NEXT_PUBLIC_SITE_URL}/articles/${article!.id}`} />
-        <meta property="og:type" content="article" />
-
-
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@HillsQuills" />
-        <meta name="twitter:creator" content="@HillsQuills" />
-        <meta name="twitter:title" content={article!.title} />
-        <meta name="twitter:description" content={article!.content.substring(0, 150)} />
-        <meta name="twitter:image" content={article!.image.previewUrl} />
-      </Head>
       <div className="min-h-screen max-w-7xl w-full md:px-8 2xl:px-0 px-4 mx-auto bg-white">
         <Header />
         <button

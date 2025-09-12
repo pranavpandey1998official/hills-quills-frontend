@@ -3,7 +3,22 @@ import RegionBadge from "../../../../components/molecules/region-badge"
 import { Clock } from "lucide-react"
 import { format } from "date-fns"
 import Link from "next/link"
+import { ShimmerButton, ShimmerText, ShimmerTitle } from "react-shimmer-effects"
 
+export const LoadingArticleCardRectangleHorizontal = () => {
+  return (
+      <div className="grid grid-cols-3 bg-white">
+          <div className="col-span-1 flex justify-center items-center mr-4">
+              <div className="w-full aspect-video animate-pulse bg-gray-100 rounded-lg " />
+          </div>
+          <div className="col-span-2 flex @xs:py-2 @sm:py-4 flex-col ">
+              <ShimmerButton size="sm" />
+              <ShimmerTitle line={1} className="mb-3" variant="secondary" />
+              <ShimmerText line={1} className="w-1/4" />
+          </div>
+      </div>
+  )
+}
 
 
 const ArticleCardRectangleHorizontal = ({ article }: { article: Article }) => {
