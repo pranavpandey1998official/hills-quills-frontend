@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 import './globals.css';
-import type { Metadata } from 'next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { Inter } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
 import localFont from 'next/font/local';
@@ -67,6 +67,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || ''} />
       <body
         className={cn('bg-background min-h-screen font-sans antialiased', helveticaNow.variable)}
       >
